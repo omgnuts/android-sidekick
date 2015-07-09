@@ -57,6 +57,8 @@ ext {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
+    // Extract contact numbers / email / url / maplink
+    compile 'com.googlecode.libphonenumber:libphonenumber:7.0.6'
 }
 
 /* .............................................................
