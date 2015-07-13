@@ -12,7 +12,7 @@ public abstract class ScreenSwitcher {
 
     private final int containerId;
 
-    ScreenSwitcher(ScreenCompatActivity activity, int containerId) {
+    public ScreenSwitcher(ScreenCompatActivity activity, int containerId) {
         this.fragmentManager = activity.getSupportFragmentManager();
         this.containerId = containerId;
     }

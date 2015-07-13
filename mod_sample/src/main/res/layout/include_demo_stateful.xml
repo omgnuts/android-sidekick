@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@android:id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/button_material_light"
+        />
+
+    <Button
+        android:id="@android:id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Simulate changes to property values"
+        />
+
+    <Button
+        android:id="@android:id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Retrieve property value to UI"
+        />
+
+    <Button
+        android:id="@android:id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Activity"
+        />
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>
