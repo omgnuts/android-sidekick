@@ -26,13 +26,13 @@ ext {
 
     // bare minimum params for uploading to bintray
     bintray_repo = 'private'
-    package_name = 'android-toolkit'
+    package_name = 'android-jumpstart'
     group_id = 'com.jattcode'
     artifact_id = project.name
     artifact_version = '0.1'
     all_licenses = ["Apache-2.0"] // mandatory
-    git_url = 'https://github.com/jimcoven/android-toolkit.git'
-    site_url = 'https://github.com/jimcoven/android-toolkit'
+    git_url = 'https://github.com/jimcoven/android-jumpstart.git'
+    site_url = 'https://github.com/jimcoven/android-jumpstart'
 
     // pom.xml is required for users to download your aars using the command
     // ie. compile 'group_id:artifact_id:artifact_version'
