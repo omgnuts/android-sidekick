@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile 'com.android.support:appcompat-v7:22.1.1'
 
     compile project(':library')
@@ -37,6 +37,19 @@ android {
         applicationId app_id as String
         versionCode app_version_code as int
         versionName app_version as String
+    }
+
+    sourceSets {
+        main {
+//            manifest.srcFile '/src/main/AndroidManifest.xml'
+//            java.srcDirs = ['/src/main/java','.apt_generated']
+//            aidl.srcDirs = ['/src/main/aidl','.apt_generated']
+//            assets.srcDirs = ['/src/main/assets']
+            res.srcDirs = [
+                'src/main/res.fragments',
+                'src/main/res'
+            ]
+        }
     }
 
     buildTypes {
