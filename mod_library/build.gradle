@@ -81,6 +81,22 @@ android {
         // android library does NOT need an app_id
     }
 
+    sourceSets {
+        main {
+//            manifest.srcFile '/src/main/AndroidManifest.xml'
+//            aidl.srcDirs = ['/src/main/aidl','.apt_generated']
+//            assets.srcDirs = ['/src/main/assets']
+            java.srcDirs = [
+                    'src/main/java.fragment',
+                    'src/main/java.imageslider',
+                    'src/main/java'
+            ]
+            res.srcDirs = [
+                    'src/main/res.imageslider',
+                    'src/main/res'
+            ]
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false // keep as false. No need proguard for OSS
