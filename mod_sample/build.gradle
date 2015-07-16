@@ -42,9 +42,12 @@ android {
     sourceSets {
         main {
 //            manifest.srcFile '/src/main/AndroidManifest.xml'
-//            java.srcDirs = ['/src/main/java','.apt_generated']
 //            aidl.srcDirs = ['/src/main/aidl','.apt_generated']
 //            assets.srcDirs = ['/src/main/assets']
+            java.srcDirs = [
+                'src/main/java.fragments',
+                'src/main/java'
+            ]
             res.srcDirs = [
                 'src/main/res.fragments',
                 'src/main/res'
