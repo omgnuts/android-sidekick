@@ -1,4 +1,4 @@
-package com.jattcode.android.fragment;
+package com.mikimedia.android.fragment;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

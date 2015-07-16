@@ -1,4 +1,4 @@
-package com.jattcode.android.fragment;
+package com.mikimedia.android.fragment;
 
 public interface Screen {
     boolean onBackPressed();

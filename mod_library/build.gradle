@@ -27,7 +27,7 @@ ext {
     // bare minimum params for uploading to bintray
     bintray_repo = 'private'
     package_name = 'android-jumpstart'
-    group_id = 'com.jattcode'
+    group_id = 'com.mikimedia'
     artifact_id = project.name
     artifact_version = '0.1'
     all_licenses = ["Apache-2.0"] // mandatory

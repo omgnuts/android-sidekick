@@ -1,4 +1,4 @@
-package com.jattcode.android.fragment;
+package com.mikimedia.android.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package com.jattcode.oss.sample;
+package com.mikimedia.oss.sample;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.jattcode.android.fragment.Screen;
-import com.jattcode.android.fragment.ScreenFragment;
+import com.mikimedia.android.fragment.Screen;
+import com.mikimedia.android.fragment.ScreenFragment;
 
 
 public class StatefulFragment extends ScreenFragment implements Screen {

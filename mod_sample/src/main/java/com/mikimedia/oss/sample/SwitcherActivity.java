@@ -1,10 +1,10 @@
-package com.jattcode.oss.sample;
+package com.mikimedia.oss.sample;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.jattcode.android.fragment.ScreenCompatActivity;
-import com.jattcode.android.fragment.ScreenSwitcher;
+import com.mikimedia.android.fragment.ScreenCompatActivity;
+import com.mikimedia.android.fragment.ScreenSwitcher;
 
 public class SwitcherActivity extends ScreenCompatActivity {
 

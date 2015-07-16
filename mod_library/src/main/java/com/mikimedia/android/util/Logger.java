@@ -1,4 +1,4 @@
-package com.jattcode.android.util;
+package com.mikimedia.android.util;
 
 public class Logger {
 

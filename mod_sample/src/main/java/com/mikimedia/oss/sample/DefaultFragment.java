@@ -1,4 +1,4 @@
-package com.jattcode.oss.sample;
+package com.mikimedia.oss.sample;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,16 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jattcode.android.fragment.Screen;
-import com.jattcode.android.fragment.ScreenCompatActivity;
-import com.jattcode.android.fragment.ScreenSwitcher;
+import com.mikimedia.android.fragment.Screen;
+import com.mikimedia.android.fragment.ScreenCompatActivity;
+import com.mikimedia.android.fragment.ScreenSwitcher;
 
 /**
  * Created by Javan on 13/7/2015.
  */
-public class RandomFragment extends Fragment implements Screen {
+public class DefaultFragment extends Fragment implements Screen {
+
+    private EditText getEditText() {
+        return (EditText) parentView.findViewById(android.R.id.edit);
+    }
 
     private TextView getTextView() {
         return (TextView) parentView.findViewById(android.R.id.text1);
@@ -24,6 +29,10 @@ public class RandomFragment extends Fragment implements Screen {
 
     private Button getButtonStartActivity() {
         return (Button) parentView.findViewById(android.R.id.button2);
+    }
+
+    private Button getButtonSimulateInput() {
+        return (Button) parentView.findViewById(android.R.id.button1);
     }
 
     private Button getButtonStartFragment() {
@@ -42,7 +51,7 @@ public class RandomFragment extends Fragment implements Screen {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        parentView = inflater.inflate(R.layout.fragment_demo_random, container, false);
+        parentView = inflater.inflate(R.layout.fragment_demo_default, container, false);
         context = getActivity();
 
         onInitViews();
@@ -50,9 +59,7 @@ public class RandomFragment extends Fragment implements Screen {
     }
 
     private void onInitViews() {
-
-        getTextView().setText(String.valueOf(System.currentTimeMillis()));
-
+        getButtonSimulateInput().setOnClickListener(clicker);
         getButtonStartActivity().setOnClickListener(clicker);
         getButtonStartFragment().setOnClickListener(clicker);
     }
@@ -62,6 +69,11 @@ public class RandomFragment extends Fragment implements Screen {
         @Override
         public void onClick(View view) {
             switch(view.getId()) {
+                case android.R.id.button1: // getButtonSimulateInput
+                    getEditText().setText("Today is a good day");
+                    getTextView().setText("Today is a good day");
+                    break;
+
                 case android.R.id.button2: // getButtonStartActivity
                     getSwitcher().changeScreen(SwitcherActivity.ScreenType.DEFAULT_FRAGMENT);
                     break;
