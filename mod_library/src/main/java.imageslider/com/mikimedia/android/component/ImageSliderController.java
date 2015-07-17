@@ -102,7 +102,7 @@ public class ImageSliderController {
 
         final ViewPager pager = (ViewPager) container.findViewById(R.id.pager);
         pager.setAdapter(new ImagePageAdapter(activity, dataAdapter));
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 indicator.setPosition(position);
