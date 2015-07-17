@@ -17,7 +17,7 @@
  *
  */
 
-package com.mikimedia.android.component;
+package com.mikimedia.android.view;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;

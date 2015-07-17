@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.mikimedia.demo.fragments.SwitcherActivity;
+import com.mikimedia.demo.imageslider.ImageSliderActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     intent = new Intent(MainActivity.this, SwitcherActivity.class);
                     break;
                 case 2: // imageslider
-//                    intent = new Intent(MainActivity.this, SwitcherActivity.class);
+                    intent = new Intent(MainActivity.this, ImageSliderActivity.class);
 
                     break;
             }

@@ -59,6 +59,9 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     // Extract contact numbers / email / url / maplink
     compile 'com.googlecode.libphonenumber:libphonenumber:7.0.6'
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.4'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 
 /* .............................................................

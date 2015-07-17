@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.jattcode.common.view.SwipeBackLayout
+<com.mikimedia.android.view.SwipeBackLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
-    android:background="#09000000"
+    android:background="@color/imageslider_container_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,14 +19,6 @@
             android:layout_width="match_parent"
             />
 
-        <!--<com.liuguangqiang.progressbar.CircleProgressBar-->
-            <!--android:id="@+id/progressbar1"-->
-            <!--android:layout_width="45dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--app:background_color="@android:color/transparent"-->
-            <!--app:progress_color="#99FFFFFF"-->
-            <!--app:stroke_width="2dp" />-->
-
         <ImageView
             android:id="@+id/close_button"
             android:background="@mipmap/ic_close"
@@ -38,9 +29,10 @@
             android:layout_margin="10dp"
             />
 
-        <com.jattcode.common.view.IndicatorView
+        <com.mikimedia.android.view.IndicatorView
             android:id="@+id/indicator"
-            android:background="#00000000"
+            android:background="@color/imageslider_transparent"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="24dp"
@@ -50,4 +42,4 @@
     </RelativeLayout>
 
 
-</com.jattcode.common.view.SwipeBackLayout>
+</com.mikimedia.android.view.SwipeBackLayout>
