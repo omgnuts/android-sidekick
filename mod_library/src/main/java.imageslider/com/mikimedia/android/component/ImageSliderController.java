@@ -27,10 +27,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.mikimedia.android.R;
 import com.mikimedia.android.view.IndicatorView;
 import com.mikimedia.android.view.ObjectPageAdapter;
+import com.mikimedia.android.view.SubSamplingTargetView;
 import com.mikimedia.android.view.SwipeBackLayout;
 import com.squareup.picasso.Target;
 
@@ -110,14 +110,13 @@ public class ImageSliderController {
     private static class ImagePageAdapter extends ObjectPageAdapter {
 
         private static class ViewHolder {
-            Target target;
+            SubSamplingTargetView target;
 
             ViewHolder(View itemView) {
-                SubsamplingScaleImageView view = (SubsamplingScaleImageView) itemView.findViewById(R.id.image_view);
-                view.setMinimumDpi(50);
-                view.setDoubleTapZoomDpi(120); // default base 160dpi
+                target = (SubSamplingTargetView) itemView.findViewById(R.id.image_view);
+                target.setMinimumDpi(50);
+                target.setDoubleTapZoomDpi(120); // default base 160dpi
 
-                this.target = new PicassoHandle.ImageWrapper(view);
                 itemView.setTag(this);
             }
         }

@@ -107,35 +107,35 @@ public abstract class PicassoHandle {
 //        }
 //    });
 
-    public static final class ImageWrapper implements Target {
-
-        private final SubsamplingScaleImageView imageView;
-
-        public ImageWrapper(SubsamplingScaleImageView imageView) {
-            this.imageView = imageView;
-        }
-
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            if (this.imageView != null) {
-                this.imageView.setImage(ImageSource.bitmap(bitmap));
-            }
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-            if (this.imageView != null) {
-                this.imageView.setImage(ImageSource.resource(ONERROR_DRAWABLE_RESID));
-            }
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-            if (this.imageView != null) {
-                this.imageView.setImage(ImageSource.resource(ONLOADING_DRAWABLE_RESID));
-            }
-        }
-    }
+//    public static final class ImageWrapper implements Target {
+//
+//        private final SubsamplingScaleImageView imageView;
+//
+//        public ImageWrapper(SubsamplingScaleImageView imageView) {
+//            this.imageView = imageView;
+//        }
+//
+//        @Override
+//        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//            if (this.imageView != null) {
+//                this.imageView.setImage(ImageSource.bitmap(bitmap));
+//            }
+//        }
+//
+//        @Override
+//        public void onBitmapFailed(Drawable errorDrawable) {
+//            if (this.imageView != null) {
+//                this.imageView.setImage(ImageSource.resource(ONERROR_DRAWABLE_RESID));
+//            }
+//        }
+//
+//        @Override
+//        public void onPrepareLoad(Drawable placeHolderDrawable) {
+//            if (this.imageView != null) {
+//                this.imageView.setImage(ImageSource.resource(ONLOADING_DRAWABLE_RESID));
+//            }
+//        }
+//    }
 
     public static final class CacheManager {
 

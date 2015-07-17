@@ -15,6 +15,18 @@ public class ImageSliderActivity extends AppCompatActivity {
         dataUri = new String[]{
                 "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
                 "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
                 "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg"
         };
     }
