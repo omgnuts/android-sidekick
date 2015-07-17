@@ -37,18 +37,15 @@ public class ImageLoader extends PicassoHandle {
                 "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
                 "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
                 "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://gameanimecentral.com/wp-content/uploads/ktz/Sexy-Cute-Cosplay-Anime-Girls-HD-Wallpaper-2xl6mvz36f1a1oq1pj5r7u.png",
+                "http://4.bp.blogspot.com/-TiNAm5yo5d0/UNvgfHfAbtI/AAAAAAAAX-I/4pw23wMWD78/s1600/T-ara+Sexy+Love+Pictures+Hyomin.png",
+                "http://i223.photobucket.com/albums/dd203/spiketail118/momo2vd.png",
                 "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
                 "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
                 "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg"
+                "http://gameanimecentral.com/wp-content/uploads/ktz/Sexy-Cute-Cosplay-Anime-Girls-HD-Wallpaper-2xl6mvz36f1a1oq1pj5r7u.png",
+                "http://4.bp.blogspot.com/-TiNAm5yo5d0/UNvgfHfAbtI/AAAAAAAAX-I/4pw23wMWD78/s1600/T-ara+Sexy+Love+Pictures+Hyomin.png",
+                "http://i223.photobucket.com/albums/dd203/spiketail118/momo2vd.png",
         };
     }
 
