@@ -43,6 +43,9 @@ import com.squareup.picasso.Target;
 
 public class ImageSliderController {
 
+    // disable this feature for now.
+    private static final boolean DISABLE_IMAGESAVE = true;
+
     public interface ImageDataAdapter {
         int size();
         void bindView(int position, Target target);
@@ -124,7 +127,7 @@ public class ImageSliderController {
             ViewHolder(View itemView) {
                 target = (SubSamplingTargetView) itemView.findViewById(R.id.image_view);
                 target.setOnImageEventListener(this);
-                target.setOnTouchListener(onTouchListener);
+                if (!DISABLE_IMAGESAVE) target.setOnTouchListener(onTouchListener);
                 itemView.setTag(this);
             }
 
@@ -160,37 +163,42 @@ public class ImageSliderController {
             this.dataAdapter = dataAdapter;
             this.inflater = LayoutInflater.from(context);
 
-            onTouchListener = new View.OnTouchListener() {
-                private ViewHolder holder = null;
-                @Override
-                public boolean onTouch(View view, MotionEvent event) {
-                    if (view.getTag() instanceof ViewHolder) {
-                        this.holder = (ViewHolder) view.getTag();
-                        return gestureDetector.onTouchEvent(event);
-                    } else {
-                        return false;
-                    }
-                }
-
-                final GestureDetector gestureDetector = new GestureDetector(
-                        context, new GestureDetector.SimpleOnGestureListener() {
+            if (DISABLE_IMAGESAVE) {
+                onTouchListener = null;
+            } else {
+                onTouchListener = new View.OnTouchListener() {
+                    private ViewHolder holder = null;
 
                     @Override
-                    public boolean onSingleTapConfirmed(MotionEvent e) {
-                        // Save image & return true to consume the event
-                        return false;
-                    }
-
-                    public void onLongPress(MotionEvent e) {
-                        final Bitmap bm = holder.target.getBitmap();
-                        if (bm != null && !bm.isRecycled()) {
-                            ImageUtil.addImageToGallery(context.getContentResolver(),
-                                    bm, "title", "desc");
+                    public boolean onTouch(View view, MotionEvent event) {
+                        if (view.getTag() instanceof ViewHolder) {
+                            this.holder = (ViewHolder) view.getTag();
+                            return gestureDetector.onTouchEvent(event);
+                        } else {
+                            return false;
                         }
                     }
 
-                });
-            };
+                    final GestureDetector gestureDetector = new GestureDetector(
+                            context, new GestureDetector.SimpleOnGestureListener() {
+
+                        @Override
+                        public boolean onSingleTapConfirmed(MotionEvent e) {
+                            // Save image & return true to consume the event
+                            return false;
+                        }
+
+                        public void onLongPress(MotionEvent e) {
+                            final Bitmap bm = holder.target.getBitmap();
+                            if (bm != null && !bm.isRecycled()) {
+                                ImageUtil.addImageToGallery(context.getContentResolver(),
+                                        bm, "title", "desc");
+                            }
+                        }
+
+                    });
+                };
+            }
         }
 
         @Override
