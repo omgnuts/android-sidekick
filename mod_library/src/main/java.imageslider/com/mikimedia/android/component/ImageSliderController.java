@@ -21,9 +21,13 @@ package com.mikimedia.android.component;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -31,6 +35,7 @@ import com.mikimedia.android.R;
 import com.mikimedia.android.view.IndicatorView;
 import com.mikimedia.android.view.ObjectPageAdapter;
 import com.mikimedia.android.view.SubSamplingTargetView;
+import com.mikimedia.android.view.SubSamplingTargetView.SimpleOnImageEventListener;
 import com.mikimedia.android.view.SwipeBackLayout;
 import com.squareup.picasso.Target;
 
@@ -44,9 +49,9 @@ public class ImageSliderController {
 
     private final Activity activity;
 
-    private ImageDataAdapter loader;
-
     private SwipeBackLayout container;
+
+    private BitmapDrawable errorDrawble = null;
 
     public ImageSliderController(AppCompatActivity activity) {
         if (!(activity instanceof AppCompatActivity)) {
@@ -83,13 +88,15 @@ public class ImageSliderController {
         return container;
     }
 
-    public void init(ImageDataAdapter dataAdapter) {
+    public void init(ImageDataAdapter dataAdapter, BitmapDrawable errorDrawable) {
+        this.errorDrawble = errorDrawable;
+
         // Assigning ViewPager View and setting the adapter
         final IndicatorView iv = (IndicatorView) container.findViewById(R.id.indicator);
         iv.setVisibility(View.VISIBLE);
         iv.setSize(dataAdapter.size(), 0);
 
-        ViewPager pager = (ViewPager) container.findViewById(R.id.pager);
+        final ViewPager pager = (ViewPager) container.findViewById(R.id.pager);
         pager.setAdapter(new ImagePageAdapter(activity, dataAdapter));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -105,19 +112,41 @@ public class ImageSliderController {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
     }
 
-    private static class ImagePageAdapter extends ObjectPageAdapter {
 
-        private static class ViewHolder {
+    private class ImagePageAdapter extends ObjectPageAdapter {
+
+        private class ViewHolder extends SimpleOnImageEventListener {
             SubSamplingTargetView target;
 
             ViewHolder(View itemView) {
                 target = (SubSamplingTargetView) itemView.findViewById(R.id.image_view);
-                target.setMinimumDpi(50);
-                target.setDoubleTapZoomDpi(120); // default base 160dpi
-
+                target.setOnImageEventListener(this);
+                target.setOnTouchListener(onTouchListener);
                 itemView.setTag(this);
+            }
+
+            @Override
+            public void onPreviewLoadError(Exception e) {
+                if (errorDrawble != null) {
+                    target.onBitmapFailed(errorDrawble);
+                }
+            }
+
+            @Override
+            public void onImageLoadError(Exception e) {
+                if (errorDrawble != null) {
+                    target.onBitmapFailed(errorDrawble);
+                }
+            }
+
+            @Override
+            public void onTileLoadError(Exception e) {
+                if (errorDrawble != null) {
+                    target.onBitmapFailed(errorDrawble);
+                }
             }
         }
 
@@ -125,9 +154,35 @@ public class ImageSliderController {
 
         private final LayoutInflater inflater;
 
-        private ImagePageAdapter(Context context, ImageDataAdapter dataAdapter) {
+        final View.OnTouchListener onTouchListener;
+
+        private ImagePageAdapter(final Context context, ImageDataAdapter dataAdapter) {
             this.dataAdapter = dataAdapter;
             this.inflater = LayoutInflater.from(context);
+
+            onTouchListener = new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return gestureDetector.onTouchEvent(event);
+                }
+                final GestureDetector gestureDetector = new GestureDetector(
+                        context, new GestureDetector.SimpleOnGestureListener() {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+//                    if (imageView.isReady()) {
+//                        PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
+//                        // ...
+//                    }
+                        System.out.println("...... do something");
+                        return true;
+                    }
+
+                    public void onLongPress(MotionEvent e) {
+
+                    }
+
+                });
+            };
         }
 
         @Override
@@ -138,12 +193,12 @@ public class ImageSliderController {
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             ViewHolder holder;
-//            if (view == null) {
+            if (view == null) {
                 view = inflater.inflate(R.layout.imageslider_imageview, null);
                 holder = new ViewHolder(view);
-//            } else {
-//                holder = (ViewHolder) view.getTag();
-//            }
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
 
             dataAdapter.bindView(position, holder.target);
 

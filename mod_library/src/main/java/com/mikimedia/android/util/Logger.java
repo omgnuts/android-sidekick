@@ -2,7 +2,7 @@ package com.mikimedia.android.util;
 
 public class Logger {
 
-    public static boolean DEBUG = false;
+    public static boolean DEBUG = true;
 
     private static final int LEVEL = android.util.Log.VERBOSE;
 

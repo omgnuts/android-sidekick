@@ -36,7 +36,7 @@ public class ImageSliderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         ImageSliderController isc = new ImageSliderController(this);
         setContentView(isc.onCreate());
-        isc.init(new DataAdapter(dataUri));
+        isc.init(new DataAdapter(dataUri), ImageLoader.with(this).getOnErrorDrawable());
     }
 
     private class DataAdapter implements ImageSliderController.ImageDataAdapter {
@@ -55,7 +55,7 @@ public class ImageSliderActivity extends AppCompatActivity {
         @Override
         public void bindView(int position, Target target) {
             String asset = imgUri[position];
-            ImageLoader.get(ImageSliderActivity.this).load(asset, target);
+            ImageLoader.with(ImageSliderActivity.this).load(asset, target);
         }
 
     }

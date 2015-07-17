@@ -3,15 +3,14 @@ package com.mikimedia.android.component;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.StatFs;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.internal.app.WindowDecorActionBar;
 import android.widget.ImageView;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
@@ -41,9 +40,13 @@ public abstract class PicassoHandle {
 
     private final Picasso picasso;
 
-    private final Drawable onErrorDrawable;
+    private final BitmapDrawable onErrorDrawable;
 
-    private final Drawable onLoadDrawable;
+    public BitmapDrawable getOnErrorDrawable() {
+        return onErrorDrawable;
+    }
+
+    private final BitmapDrawable onLoadDrawable;
 
     private static void checkPermissionsOrThrowException(Context context) {
         String[] permissions = new String[] {
@@ -64,8 +67,8 @@ public abstract class PicassoHandle {
     protected PicassoHandle(Context context) {
         checkPermissionsOrThrowException(context);
 
-        this.onErrorDrawable = ContextCompat.getDrawable(context, ONERROR_DRAWABLE_RESID);
-        this.onLoadDrawable = ContextCompat.getDrawable(context, ONLOADING_DRAWABLE_RESID);
+        this.onErrorDrawable = (BitmapDrawable) ContextCompat.getDrawable(context, ONERROR_DRAWABLE_RESID);
+        this.onLoadDrawable = (BitmapDrawable) ContextCompat.getDrawable(context, ONLOADING_DRAWABLE_RESID);
 
         this.picasso = new Picasso.Builder(context)
                 .memoryCache((manager = new CacheManager(context)).cache)
@@ -106,36 +109,6 @@ public abstract class PicassoHandle {
 //            }
 //        }
 //    });
-
-//    public static final class ImageWrapper implements Target {
-//
-//        private final SubsamplingScaleImageView imageView;
-//
-//        public ImageWrapper(SubsamplingScaleImageView imageView) {
-//            this.imageView = imageView;
-//        }
-//
-//        @Override
-//        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//            if (this.imageView != null) {
-//                this.imageView.setImage(ImageSource.bitmap(bitmap));
-//            }
-//        }
-//
-//        @Override
-//        public void onBitmapFailed(Drawable errorDrawable) {
-//            if (this.imageView != null) {
-//                this.imageView.setImage(ImageSource.resource(ONERROR_DRAWABLE_RESID));
-//            }
-//        }
-//
-//        @Override
-//        public void onPrepareLoad(Drawable placeHolderDrawable) {
-//            if (this.imageView != null) {
-//                this.imageView.setImage(ImageSource.resource(ONLOADING_DRAWABLE_RESID));
-//            }
-//        }
-//    }
 
     public static final class CacheManager {
 

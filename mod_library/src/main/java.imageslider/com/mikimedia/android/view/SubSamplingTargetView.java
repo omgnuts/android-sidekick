@@ -33,38 +33,76 @@ import com.squareup.picasso.Target;
 
 public class SubSamplingTargetView extends SubsamplingScaleImageView implements Target {
 
+    private static final String TAG = SubSamplingTargetView.class.getSimpleName();
+
+    public abstract static class SimpleOnImageEventListener implements OnImageEventListener {
+
+        @Override
+        public void onReady() {
+
+        }
+
+        @Override
+        public void onImageLoaded() {
+
+        }
+
+        @Override
+        public void onPreviewLoadError(Exception e) {
+
+        }
+
+        @Override
+        public void onImageLoadError(Exception e) {
+
+        }
+
+        @Override
+        public void onTileLoadError(Exception e) {
+
+        }
+    }
+
     public SubSamplingTargetView(Context context, AttributeSet attr) {
         super(context, attr);
+        init();
     }
 
     public SubSamplingTargetView(Context context) {
         super(context);
+        init();
+    }
+
+    private void init() {
+        setCacheEnabled(true);
+        setMinimumDpi(50);
+        setDoubleTapZoomDpi(120); // default base 160dpi
     }
 
     @Override
-    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+    public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
         setImage(ImageSource.bitmap(bitmap));
     }
 
     @Override
     public void onBitmapFailed(Drawable errorDrawable) {
-//        setImage(ImageSource.bitmap(drawableToBitmap(errorDrawable)));
+        setImage(ImageSource.bitmap(drawableToBitmap(errorDrawable)));
     }
 
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
-//        setImage(ImageSource.bitmap(drawableToBitmap(placeHolderDrawable)));
+        setImage(ImageSource.bitmap(drawableToBitmap(placeHolderDrawable)));
     }
 
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-        Bitmap bitmap = null;
-
+    private static final Bitmap drawableToBitmap (Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             if(bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
+
+        Bitmap bitmap = null;
 
         if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
             bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
@@ -77,4 +115,6 @@ public class SubSamplingTargetView extends SubsamplingScaleImageView implements 
         drawable.draw(canvas);
         return bitmap;
     }
+
+
 }

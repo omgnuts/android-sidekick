@@ -39,7 +39,7 @@ public class ImageLoader extends PicassoHandle {
 
     }
 
-    public static ImageLoader get(Context context) {
+    public static ImageLoader with(Context context) {
         if (singleton == null) {
             synchronized (ImageLoader.class) {
                 if (singleton == null) {
