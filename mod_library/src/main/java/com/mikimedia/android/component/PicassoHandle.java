@@ -58,13 +58,13 @@ public abstract class PicassoHandle {
 
     private final Picasso picasso;
 
+    private final BitmapDrawable onLoadDrawable;
+
     private final BitmapDrawable onErrorDrawable;
 
     public BitmapDrawable getOnErrorDrawable() {
         return onErrorDrawable;
     }
-
-    private final BitmapDrawable onLoadDrawable;
 
     private static void checkPermissionsOrThrowException(Context context) {
         String[] permissions = new String[] {
