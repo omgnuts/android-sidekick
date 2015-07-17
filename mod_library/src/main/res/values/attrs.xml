@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- XCropImageView attributes -->
+    <declare-styleable name="XCropImageView">
+
+        <!-- Defines the alignment of the text. A heuristic is used to determine the resolved
+            text alignment. -->
+        <attr name="scaleCropType" format="integer">
+            <!-- Default -->
+            <!-- Stretch to fit width -->
+            <enum name="fit_width" value="0" />
+            <!-- Stretch to fit width or height to fill -->
+            <enum name="fit_fill" value="1" />
+            <!-- Stretch to fit height -->
+            <enum name="fit_height" value="2" />
+        </attr>
+
+        <!-- Defines the alignment of the scaled image -->
+        <attr name="alignTo" format="integer">
+            <!-- Default -->
+            <enum name="top" value="0" />
+            <!-- Bottom edge -->
+            <enum name="bottom" value="1" />
+            <!-- Right edge -->
+            <enum name="center" value="2" />
+            <!-- Left edge -->
+            <enum name="left" value="3" />
+            <!-- Right edge -->
+            <enum name="right" value="4" />
+        </attr>
+
+    </declare-styleable>
+
+</resources>

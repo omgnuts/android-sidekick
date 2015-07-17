@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     static {
         buttons.put(1, "Fragments");
         buttons.put(2, "ImageSlider");
-//        buttons.put(1, "Fragments");
+        buttons.put(3, "XCropImageView");
     }
 
     @Override
@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 2: // imageslider
                     intent = new Intent(MainActivity.this, ImageSliderActivity.class);
-
+                    break;
+                case 3: // xcropimageview
+                    intent = new Intent(MainActivity.this, XCropImageViewActivity.class);
                     break;
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

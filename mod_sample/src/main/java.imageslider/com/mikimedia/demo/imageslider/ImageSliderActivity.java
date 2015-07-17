@@ -9,34 +9,12 @@ import com.squareup.picasso.Target;
 
 public class ImageSliderActivity extends AppCompatActivity {
 
-    private static String[] dataUri;
-
-    static {
-        dataUri = new String[]{
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
-                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
-                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
-                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg"
-        };
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ImageSliderController isc = new ImageSliderController(this);
         setContentView(isc.onCreate());
-        isc.init(new DataAdapter(dataUri), ImageLoader.with(this).getOnErrorDrawable());
+        isc.init(new DataAdapter(ImageLoader.dataUri), ImageLoader.with(this).getOnErrorDrawable());
     }
 
     private class DataAdapter implements ImageSliderController.ImageDataAdapter {

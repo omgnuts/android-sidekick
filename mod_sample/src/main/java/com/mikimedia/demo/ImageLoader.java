@@ -25,11 +25,31 @@ import com.mikimedia.android.component.PicassoHandle;
 
 public class ImageLoader extends PicassoHandle {
 
+    public static final String[] dataUri;
+
     static {
         STORAGE_LOCATION = "/Android/data/com.mikimedia.demo";
 
         ONLOADING_DRAWABLE_RESID = R.mipmap.picasso_loading;
         ONERROR_DRAWABLE_RESID =  R.mipmap.picasso_noimage;
+
+        dataUri = new String[]{
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg",
+                "http://images6.backpage.com/imager/u/large/115446428/3-1.jpg",
+                "http://images6.backpage.com/imager/u/large/115446386/2-2.jpg",
+                "http://images5.backpage.com/imager/u/large/114891859/Shirley2.jpg"
+        };
     }
 
     private static volatile ImageLoader singleton = null;
@@ -49,4 +69,5 @@ public class ImageLoader extends PicassoHandle {
         }
         return singleton;
     }
+
 }
