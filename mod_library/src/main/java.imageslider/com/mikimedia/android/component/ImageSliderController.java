@@ -115,7 +115,7 @@ public class ImageSliderController {
             ViewHolder(View itemView) {
                 SubsamplingScaleImageView view = (SubsamplingScaleImageView) itemView.findViewById(R.id.image_view);
                 view.setMinimumDpi(50);
-                view.setDoubleTapZoomScale(8F);
+                view.setDoubleTapZoomDpi(120); // default base 160dpi
 
                 this.target = new PicassoHandle.ImageWrapper(view);
                 itemView.setTag(this);
