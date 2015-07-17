@@ -25,7 +25,7 @@ import android.support.v4.app.Fragment;
 import com.mikimedia.android.fragment.ScreenCompatActivity;
 import com.mikimedia.android.fragment.ScreenSwitcher;
 import com.mikimedia.demo.R;
-
+import com.mikimedia.demo.fragments.DefaultFragment;
 
 public class SwitcherActivity extends ScreenCompatActivity {
 

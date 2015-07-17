@@ -33,6 +33,7 @@ import com.mikimedia.android.fragment.Screen;
 import com.mikimedia.android.fragment.ScreenCompatActivity;
 import com.mikimedia.android.fragment.ScreenSwitcher;
 import com.mikimedia.demo.R;
+import com.mikimedia.demo.fragments.SwitcherActivity;
 
 public class DefaultFragment extends Fragment implements Screen {
 

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 ext {
-    app_id = 'com.jattcode.oss.sample' // usually the namespace. Note it is not the same as package
+    app_id = 'com.mikimedia.demo' // usually the namespace. Note it is not the same as package
     app_version_code = 1
     app_version = '0.1x'
     android_build_sdk_version = ANDROID_BUILD_SDK_VERSION as int
@@ -46,6 +46,7 @@ android {
 //            assets.srcDirs = ['/src/main/assets']
             java.srcDirs = [
                 'src/main/java.fragment',
+                'src/main/java.imageslider',
                 'src/main/java'
             ]
             res.srcDirs = [
