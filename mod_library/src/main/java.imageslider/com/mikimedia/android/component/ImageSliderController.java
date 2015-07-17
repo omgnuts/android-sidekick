@@ -21,7 +21,7 @@ package com.mikimedia.android.component;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.PointF;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mikimedia.android.R;
+import com.mikimedia.android.util.ImageUtil;
 import com.mikimedia.android.view.IndicatorView;
 import com.mikimedia.android.view.ObjectPageAdapter;
 import com.mikimedia.android.view.SubSamplingTargetView;
@@ -92,16 +93,16 @@ public class ImageSliderController {
         this.errorDrawble = errorDrawable;
 
         // Assigning ViewPager View and setting the adapter
-        final IndicatorView iv = (IndicatorView) container.findViewById(R.id.indicator);
-        iv.setVisibility(View.VISIBLE);
-        iv.setSize(dataAdapter.size(), 0);
+        final IndicatorView indicator = (IndicatorView) container.findViewById(R.id.indicator);
+        indicator.setVisibility(View.VISIBLE);
+        indicator.setSize(dataAdapter.size(), 0);
 
         final ViewPager pager = (ViewPager) container.findViewById(R.id.pager);
         pager.setAdapter(new ImagePageAdapter(activity, dataAdapter));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                iv.setPosition(position);
+                indicator.setPosition(position);
             }
 
             @Override
@@ -114,7 +115,6 @@ public class ImageSliderController {
         });
 
     }
-
 
     private class ImagePageAdapter extends ObjectPageAdapter {
 
@@ -161,24 +161,32 @@ public class ImageSliderController {
             this.inflater = LayoutInflater.from(context);
 
             onTouchListener = new View.OnTouchListener() {
+                private ViewHolder holder = null;
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return gestureDetector.onTouchEvent(event);
+                public boolean onTouch(View view, MotionEvent event) {
+                    if (view.getTag() instanceof ViewHolder) {
+                        this.holder = (ViewHolder) view.getTag();
+                        return gestureDetector.onTouchEvent(event);
+                    } else {
+                        return false;
+                    }
                 }
+
                 final GestureDetector gestureDetector = new GestureDetector(
                         context, new GestureDetector.SimpleOnGestureListener() {
+
                     @Override
                     public boolean onSingleTapConfirmed(MotionEvent e) {
-//                    if (imageView.isReady()) {
-//                        PointF sCoord = imageView.viewToSourceCoord(e.getX(), e.getY());
-//                        // ...
-//                    }
-                        System.out.println("...... do something");
-                        return true;
+                        // Save image & return true to consume the event
+                        return false;
                     }
 
                     public void onLongPress(MotionEvent e) {
-
+                        final Bitmap bm = holder.target.getBitmap();
+                        if (bm != null && !bm.isRecycled()) {
+                            ImageUtil.addImageToGallery(context.getContentResolver(),
+                                    bm, "title", "desc");
+                        }
                     }
 
                 });

@@ -63,6 +63,12 @@ public class SubSamplingTargetView extends SubsamplingScaleImageView implements 
         }
     }
 
+    private Bitmap bitmap = null;
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
     public SubSamplingTargetView(Context context, AttributeSet attr) {
         super(context, attr);
         init();
@@ -82,16 +88,19 @@ public class SubSamplingTargetView extends SubsamplingScaleImageView implements 
     @Override
     public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
         setImage(ImageSource.bitmap(bitmap));
+        this.bitmap = bitmap;
     }
 
     @Override
     public void onBitmapFailed(Drawable errorDrawable) {
         setImage(ImageSource.bitmap(drawableToBitmap(errorDrawable)));
+        this.bitmap = null;
     }
 
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
         setImage(ImageSource.bitmap(drawableToBitmap(placeHolderDrawable)));
+        this.bitmap = null;
     }
 
     private static final Bitmap drawableToBitmap (Drawable drawable) {
