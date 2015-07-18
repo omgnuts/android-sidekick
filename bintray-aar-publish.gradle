@@ -13,29 +13,29 @@ task androidSourcesJar(type: Jar) {
     classifier = 'sources'
 }
 
-task androidJavadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
-    from androidJavadoc.destinationDir
-    classifier = 'javadoc'
-}
-
-androidJavadoc {
-    options{
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        author true
-        version true
-        links "http://docs.oracle.com/javase/7/docs/api"
-        title artifact_id
-    }
-}
+//task androidJavadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
+//    from androidJavadoc.destinationDir
+//    classifier = 'javadoc'
+//}
+//
+//androidJavadoc {
+//    options{
+//        encoding "UTF-8"
+//        charSet 'UTF-8'
+//        author true
+//        version true
+//        links "http://docs.oracle.com/javase/7/docs/api"
+//        title artifact_id
+//    }
+//}
 
 artifacts {
-    archives androidJavadocJar
+//    archives androidJavadocJar
     archives androidSourcesJar
 }
 

@@ -12,7 +12,7 @@ ext {
 
 // specific repos that are not in jcenter() or mavencentral() - both defined at root already
 repositories {
-    maven { url 'https://dl.bintray.com/jimcoven/private/' }
+    maven { url 'https://dl.bintray.com/jimcoven/maven/' }
 }
 
 dependencies {
@@ -21,6 +21,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile project(':library')
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.4b'
 //    compile 'com.jattcode:android-jumpstart:0.1'
 
 }

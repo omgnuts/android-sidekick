@@ -1,6 +1,4 @@
 include ':library'
 project(':library').projectDir = new File('mod_library')
-include ':subsample'
-project(':subsample').projectDir = new File('subsampling-scale-image-view/library')
 include ':sample'
 project(':sample').projectDir = new File('mod_sample')

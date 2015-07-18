@@ -25,11 +25,11 @@ ext {
     // which is a bad idea imho. Also, from Components.java does not work for aars atm.
 
     // bare minimum params for uploading to bintray
-    bintray_repo = 'private'
+    bintray_repo = 'maven'
     package_name = 'android-jumpstart'
     group_id = 'com.mikimedia'
     artifact_id = project.name
-    artifact_version = '0.1'
+    artifact_version = '0.11'
     all_licenses = ["Apache-2.0"] // mandatory
     git_url = 'https://github.com/jimcoven/android-jumpstart.git'
     site_url = 'https://github.com/jimcoven/android-jumpstart'
@@ -54,18 +54,22 @@ ext {
     android_build_targetsdk_version = ANDROID_BUILD_TARGET_SDK_VERSION as int
 }
 
+repositories {
+    maven { url 'https://dl.bintray.com/jimcoven/maven/' }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile ANDROID_COMPAT_SUPPORT
 
     // Extract contact numbers / email / url / maplink
     compile 'com.googlecode.libphonenumber:libphonenumber:7.0.6'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
 
-    compile project(':subsample')
-    //compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.4'
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.4b'
 }
+
 
 /* .............................................................
  * Modify the following if needed.
@@ -78,6 +82,10 @@ project.archivesBaseName = artifact_id
 android {
     compileSdkVersion android_build_sdk_version as int
     buildToolsVersion android_build_tools_version as String
+
+    lintOptions {
+        warning 'InvalidPackage' // because of okio
+    }
 
     defaultConfig {
         minSdkVersion android_build_minsdk_version as int
@@ -111,4 +119,5 @@ android {
     }
 }
 
-apply from: 'https://raw.githubusercontent.com/jimcoven/android-bintray-kit/0.5/bintray-aar-publish.gradle'
+//apply from: 'https://raw.githubusercontent.com/jimcoven/android-bintray-kit/0.5/bintray-aar-publish.gradle'
+apply from: '../bintray-aar-publish.gradle'
