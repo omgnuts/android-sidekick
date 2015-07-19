@@ -24,10 +24,10 @@ public class NuoriListViewActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) header.findViewById(R.id.image);
 
         NuoriParallaxListView listView = (NuoriParallaxListView) findViewById(R.id.list_view);
-        Nuori.Builder.init()
+        Nuori.from(listView)
                 .setImageView(imageView)
                 .setHeaderView(header)
-                .into(listView);
+                .into();
 
         ImageLoader.with(this).loadSampleImage(imageView);
 

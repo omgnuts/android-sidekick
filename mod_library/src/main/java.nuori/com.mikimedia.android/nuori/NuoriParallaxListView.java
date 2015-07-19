@@ -2,21 +2,16 @@ package com.mikimedia.android.nuori;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.mikimedia.android.R;
-
-public class NuoriParallaxListView extends ListView  implements OnScrollListener {
+public class NuoriParallaxListView extends ListView {
 
     public final static double NO_ZOOM = 1;
     public final static double ZOOM_X2 = 2;
@@ -26,38 +21,15 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
     private int mImageViewHeight = -1;
     private int mDefaultImageViewHeight = 0;
 
-    private Nuori nuori = null;
+    private final Nuori nuori = new Nuori(this);
+
+    Nuori getNuori() {
+        return this.nuori;
+    }
 
     void setNuori(Nuori nuori) {
-        this.nuori = nuori;
         mImageView = nuori.getImageView();
         addHeaderView(nuori.getHeaderView());
-    }
-
-    public NuoriParallaxListView(Context context) {
-        super(context);
-        init(context, null);
-    }
-
-    public NuoriParallaxListView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
-    }
-
-    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        init(context, attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    public void init(Context context, AttributeSet attrs) {
-
-
-        mDefaultImageViewHeight = context.getResources().getDimensionPixelSize(R.dimen.nuori_size_default_height);
 
         post(new Runnable() {
             @Override
@@ -65,6 +37,27 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
                 setViewsBounds(ZOOM_X2);
             }
         });
+    }
+
+    public NuoriParallaxListView(Context context) {
+        super(context);
+        nuori.init(context, null);
+    }
+
+    public NuoriParallaxListView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        nuori.init(context, attrs);
+    }
+
+    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        nuori.init(context, attrs);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        nuori.init(context, attrs);
     }
 
     private interface OnOverScrollByListener {
@@ -75,11 +68,6 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
 
     private interface OnTouchEventListener {
         void onTouchEvent(MotionEvent ev);
-    }
-
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
     }
 
     @Override
@@ -96,11 +84,6 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
         return isCollapseAnimation ? true : super.overScrollBy(deltaX, deltaY,
                 scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
                 maxOverScrollY, isTouchEvent);
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem,
-                         int visibleItemCount, int totalItemCount) {
     }
 
     @Override
