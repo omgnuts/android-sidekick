@@ -21,43 +21,42 @@ public class NuoriParallaxListView extends ListView {
 
     public NuoriParallaxListView(Context context) {
         super(context);
-        nuori.init(context, null);
+        nuori.initFromAttributes(context, null, 0, 0);
     }
 
     public NuoriParallaxListView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        nuori.init(context, attrs);
+        nuori.initFromAttributes(context, attrs, 0, 0);
     }
 
     public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        nuori.init(context, attrs);
+        nuori.initFromAttributes(context, attrs, defStyle, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        nuori.init(context, attrs);
+        nuori.initFromAttributes(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
     protected boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-        boolean isCollapseAnimation = false;
 
-        isCollapseAnimation = nuori.overScrollBy(deltaX, deltaY,
+        boolean isCollapseAnimation = nuori.overScrollBy(deltaX, deltaY,
                 scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
-                maxOverScrollY, isTouchEvent)
-                || isCollapseAnimation;
+                maxOverScrollY, isTouchEvent);
 
         boolean res = isCollapseAnimation ? true : super.overScrollBy(deltaX, deltaY,
                 scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
                 maxOverScrollY, isTouchEvent);
 
-//        System.out.println(res);
+        System.out.println(res);
 
         return res;
+
     }
 
     @Override

@@ -3,7 +3,13 @@
     <dimen name="nuori_size_default_height">120dp</dimen>
 
     <declare-styleable name="NuoriParallaxListView">
+
+        <!-- The theoretical maximum scaling on overscroll-->
         <attr name="zoomRatio" format="float" />
+
+        <!-- The inertia height of the image view wrt to the display screen height -->
+        <attr name="heightToScreenRatio" format="float" />
+
     </declare-styleable>
 
 </resources>

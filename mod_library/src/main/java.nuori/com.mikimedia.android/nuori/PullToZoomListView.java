@@ -56,7 +56,7 @@ public class PullToZoomListView extends ListView implements
 	private void endScraling() {
 		if (this.mHeaderContainer.getBottom() >= this.mHeaderHeight)
 			Log.d("mmm", "endScraling");
-		this.mScalingRunnalable.startAnimation(10000L);
+		this.mScalingRunnalable.startAnimation(200L);
 	}
 
 	private void init(Context paramContext) {
