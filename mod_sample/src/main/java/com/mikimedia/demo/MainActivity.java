@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 
 import com.mikimedia.demo.fragments.SwitcherActivity;
 import com.mikimedia.demo.imageslider.ImageSliderActivity;
+import com.mikimedia.demo.nuori.NuoriListViewActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         buttons.put(1, "Fragments");
         buttons.put(2, "ImageSlider");
         buttons.put(3, "XCropImageView");
+        buttons.put(4, "Nuori");
     }
 
     @Override
@@ -79,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case 3: // xcropimageview
                     intent = new Intent(MainActivity.this, XCropImageViewActivity.class);
+                    break;
+                case 4: // xcropimageview
+                    intent = new Intent(MainActivity.this, NuoriListViewActivity.class);
                     break;
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
