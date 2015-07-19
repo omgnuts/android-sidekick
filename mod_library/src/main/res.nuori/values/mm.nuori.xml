@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="NuoriParallaxListView">
+    <declare-styleable name="NuoriParallaxView">
 
         <!-- The theoretical maximum scaling on overscroll-->
         <attr name="zoomRatio" format="float" />

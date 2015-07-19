@@ -12,55 +12,50 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".fragments.SwitcherActivity"
-            android:label="@string/app_name"
+        <activity android:name=".fragments.SwitcherActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".nuori.NuoriListViewActivity"
-            android:label="@string/app_name">
+        <activity android:name=".nuori.NuoriListViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".nuori.Pull2ZoomActivity"
-            android:label="@string/app_name">
+        <activity android:name=".nuori.NuoriScrollViewActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".imageslider.ImageSliderActivity"
-            android:label="@string/app_name">
+        <activity android:name=".nuori.Pull2ZoomActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".XCropImageViewActivity"
-            android:label="@string/app_name">
+        <activity android:name=".imageslider.ImageSliderActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".XCropImageViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

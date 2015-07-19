@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.mikimedia.android.nuori.Nuori;
 import com.mikimedia.android.nuori.NuoriParallaxListView;
-import com.mikimedia.demo.ImageLoader;
 import com.mikimedia.demo.R;
 
 public class NuoriListViewActivity extends AppCompatActivity {

@@ -15,7 +15,7 @@ import com.mikimedia.android.R;
 
 public class Nuori {
 
-    public static Nuori from(NuoriParallaxListView view) {
+    public static Nuori from(NuoriParallaxView view) {
         return view.getNuori();
     }
 
@@ -25,7 +25,7 @@ public class Nuori {
      */
     private boolean activated = false;
 
-    private final NuoriParallaxListView parent;
+    private final NuoriParallaxView parent;
     private ImageView imageView = null;
     private View headerView = null;
 
@@ -46,7 +46,7 @@ public class Nuori {
      * Nuori is instantiated from within the parent
      * @param parent
      */
-    Nuori(NuoriParallaxListView parent) {
+    Nuori(NuoriParallaxView parent) {
         this.parent = parent;
     }
 
@@ -54,9 +54,9 @@ public class Nuori {
                                  int defStyleAttr, int defStyleRes) {
         // Read and apply provided attributes
         TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.NuoriParallaxListView, defStyleAttr, defStyleRes);
-        mZoomRatio = a.getFloat(R.styleable.NuoriParallaxListView_zoomRatio, mZoomRatio);
-        mHeightToScreen = a.getFloat(R.styleable.NuoriParallaxListView_heightToScreenRatio, mHeightToScreen);
+                R.styleable.NuoriParallaxView, defStyleAttr, defStyleRes);
+        mZoomRatio = a.getFloat(R.styleable.NuoriParallaxView_zoomRatio, mZoomRatio);
+        mHeightToScreen = a.getFloat(R.styleable.NuoriParallaxView_heightToScreenRatio, mHeightToScreen);
         a.recycle();
 
     }
@@ -87,7 +87,9 @@ public class Nuori {
         }
 
         if (headerView == null) {
-            throw new NullPointerException("No header view has been set");
+            if (parent instanceof NuoriParallaxListView) {
+                throw new NullPointerException("No header view has been set");
+            }
         }
 
         if (mZoomRatio < 1.0) {
@@ -154,13 +156,12 @@ public class Nuori {
         }
     }
 
-
     boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                          int scrollY, int scrollRangeX, int scrollRangeY,
                          int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
         if (!activated) return false;
 
-        deltaY *= 5;
+        deltaY *= mZoomRatio;
 
         if (imageView.getHeight() <= mMaxZoomHeight && isTouchEvent) {
             if (deltaY < 0) {

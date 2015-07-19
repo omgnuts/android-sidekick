@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ListView;
+import android.widget.ScrollView;
 
-public class NuoriParallaxListView extends ListView implements NuoriParallaxView {
+public class NuoriParallaxScrollView extends ScrollView implements NuoriParallaxView {
 
     private final Nuori nuori = new Nuori(this);
 
@@ -19,26 +19,26 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
         if (!nuori.equals(this.nuori)) {
             throw new IllegalStateException("Don't just change the nuori!");
         }
-        addHeaderView(nuori.getHeaderView());
+//        addHeaderView(nuori.getHeaderView());
     }
 
-    public NuoriParallaxListView(Context context) {
+    public NuoriParallaxScrollView(Context context) {
         super(context);
         nuori.initFromAttributes(context, null, 0, 0);
     }
 
-    public NuoriParallaxListView(Context context, AttributeSet attrs) {
+    public NuoriParallaxScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
         nuori.initFromAttributes(context, attrs, 0, 0);
     }
 
-    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyle) {
+    public NuoriParallaxScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         nuori.initFromAttributes(context, attrs, defStyle, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public NuoriParallaxScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         nuori.initFromAttributes(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -65,7 +65,7 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        nuori.onScrollChanged(l, t, oldl, oldt);
+//        nuori.onScrollChanged(l, t, oldl, oldt);
     }
 
     @Override
