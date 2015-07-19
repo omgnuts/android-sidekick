@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import com.mikimedia.demo.fragments.SwitcherActivity;
 import com.mikimedia.demo.imageslider.ImageSliderActivity;
 import com.mikimedia.demo.nuori.NuoriListViewActivity;
+import com.mikimedia.demo.nuori.Pull2ZoomActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         buttons.put(2, "ImageSlider");
         buttons.put(3, "XCropImageView");
         buttons.put(4, "Nuori");
+        buttons.put(5, "Pull2Zoom");
     }
 
     @Override
@@ -76,14 +78,17 @@ public class MainActivity extends AppCompatActivity {
                 case 1: // fragments
                     intent = new Intent(MainActivity.this, SwitcherActivity.class);
                     break;
-                case 2: // imageslider
+                case 2: // ImageSliderActivity
                     intent = new Intent(MainActivity.this, ImageSliderActivity.class);
                     break;
-                case 3: // xcropimageview
+                case 3: // XCropImageViewActivity
                     intent = new Intent(MainActivity.this, XCropImageViewActivity.class);
                     break;
-                case 4: // xcropimageview
+                case 4: // NuoriListViewActivity
                     intent = new Intent(MainActivity.this, NuoriListViewActivity.class);
+                    break;
+                case 5: // Pull2ZoomActivity
+                    intent = new Intent(MainActivity.this, Pull2ZoomActivity.class);
                     break;
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

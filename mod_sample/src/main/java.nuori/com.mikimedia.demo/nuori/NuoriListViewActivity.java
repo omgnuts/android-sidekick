@@ -29,10 +29,11 @@ public class NuoriListViewActivity extends AppCompatActivity {
                 .setHeaderView(header)
                 .into();
 
-        ImageLoader.with(this).loadSampleImage(imageView);
+        imageView.setImageResource(R.mipmap.horizontal_image);
+        // ImageLoader.with(this).loadSampleImage(imageView);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_expandable_list_item_1,
+                android.R.layout.simple_list_item_1,
                 new String[]{
                         "First Item",
                         "Second Item",

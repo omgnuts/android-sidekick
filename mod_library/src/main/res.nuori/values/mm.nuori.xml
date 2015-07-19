@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="nuori_size_default_height">160dp</dimen>
+    <dimen name="nuori_size_default_height">120dp</dimen>
 
     <declare-styleable name="NuoriParallaxListView">
         <attr name="zoomRatio" format="float" />

@@ -1,12 +1,13 @@
 package com.mikimedia.android.nuori;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 
 import com.mikimedia.android.R;
@@ -85,10 +86,8 @@ public class Nuori {
     }
 
 
-    public final static double NO_ZOOM = 1;
-    public final static double ZOOM_X2 = 2;
+    public final static double ZOOM_X2 = 4;
 
-//    private ImageView mImageView;
     private int mDrawableMaxHeight = -1;
     private int mImageViewHeight = -1;
     private int mDefaultImageViewHeight = 0;
@@ -121,12 +120,13 @@ public class Nuori {
     }
 
     void onTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            resetter.cancel();
+        }
         if (ev.getAction() == MotionEvent.ACTION_UP) {
             if (mImageViewHeight - 1 < imageView.getHeight()) {
-                ResetAnimimation animation = new ResetAnimimation(
-                        imageView, mImageViewHeight);
-                animation.setDuration(300);
-                imageView.startAnimation(animation);
+                resetter.reset(imageView, mImageViewHeight);
+                imageView.startAnimation(resetter);
             }
         }
     }
@@ -134,6 +134,7 @@ public class Nuori {
     boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                          int scrollY, int scrollRangeX, int scrollRangeY,
                          int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+//        deltaY *= 5;
 
         if (imageView.getHeight() <= mDrawableMaxHeight && isTouchEvent) {
             if (deltaY < 0) {
@@ -154,27 +155,112 @@ public class Nuori {
         return false;
     }
 
-    private static class ResetAnimimation extends Animation {
+    private final ResetAnimimation2 resetter = new ResetAnimimation2();
+
+    private static class ResetAnimimation2 extends Animation implements Animation.AnimationListener {
         int targetHeight;
         int originalHeight;
         int extraHeight;
         View mView;
 
-        protected ResetAnimimation(View view, int targetHeight) {
+        private ResetAnimimation2() {
+            setDuration(10000);
+            setFillAfter(true);
+        }
+
+        /**
+         * Returns true if the API level supports canceling existing animations via the
+         * ViewPropertyAnimator, and false if it does not
+         * @return true if the API level supports canceling existing animations via the
+         * ViewPropertyAnimator, and false if it does not
+         */
+        public static boolean canCancelAnimation() {
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+        }
+
+        int count = 0;
+        boolean hasCancelled = false;
+        public void cancel() {
+            if (hasStarted()) {
+                super.cancel();
+                hasCancelled = true;
+                if (canCancelAnimation()) {
+                    mView.animate().cancel();
+                }
+                mView.clearAnimation();
+            }
+        }
+
+
+        private void reset(View view, int targetHeight) {
             this.mView = view;
             this.targetHeight = targetHeight;
             originalHeight = view.getHeight();
             extraHeight = this.targetHeight - originalHeight;
+
+            System.out.println("originalHeight " + originalHeight);
+            System.out.println("targetHeight " + targetHeight);
         }
 
         @Override
         protected void applyTransformation(float interpolatedTime,
                                            Transformation t) {
 
+            System.out.println("applyTransformation " + interpolatedTime);
             int newHeight;
             newHeight = (int) (targetHeight - extraHeight * (1 - interpolatedTime));
             mView.getLayoutParams().height = newHeight;
             mView.requestLayout();
+
+            currHeight = newHeight;
+        }
+
+        int currHeight = 0;
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+//            if (hasCancelled) {
+//                System.out.println("onAnimationCancel ");
+//                mView.clearAnimation();
+//                mView.getLayoutParams().height = currHeight;
+//                mView.requestLayout();
+//                hasCancelled = false;
+//            }
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
         }
     }
+
+//    private static class ResetAnimimation extends Animation {
+//        int targetHeight;
+//        int originalHeight;
+//        int extraHeight;
+//        View mView;
+//
+//        protected ResetAnimimation(View view, int targetHeight) {
+//            this.mView = view;
+//            this.targetHeight = targetHeight;
+//            originalHeight = view.getHeight();
+//            extraHeight = this.targetHeight - originalHeight;
+//        }
+//
+//
+//        @Override
+//        protected void applyTransformation(float interpolatedTime,
+//                                           Transformation t) {
+//
+//            int newHeight;
+//            newHeight = (int) (targetHeight - extraHeight * (1 - interpolatedTime));
+//            mView.getLayoutParams().height = newHeight;
+//            mView.requestLayout();
+//        }
+//    }
 }

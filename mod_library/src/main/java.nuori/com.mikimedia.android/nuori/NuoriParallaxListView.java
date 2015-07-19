@@ -51,9 +51,13 @@ public class NuoriParallaxListView extends ListView {
                 maxOverScrollY, isTouchEvent)
                 || isCollapseAnimation;
 
-        return isCollapseAnimation ? true : super.overScrollBy(deltaX, deltaY,
+        boolean res = isCollapseAnimation ? true : super.overScrollBy(deltaX, deltaY,
                 scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
                 maxOverScrollY, isTouchEvent);
+
+//        System.out.println(res);
+
+        return res;
     }
 
     @Override
