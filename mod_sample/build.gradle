@@ -54,11 +54,13 @@ android {
             java.srcDirs = [
                 'src/main/java.fragment',
                 'src/main/java.imageslider',
+                'src/main/java.nuori',
                 'src/main/java'
             ]
             res.srcDirs = [
                 'src/main/res.fragment',
                 'src/main/res.imageslider',
+                'src/main/res.nuori',
                 'src/main/res'
             ]
         }
