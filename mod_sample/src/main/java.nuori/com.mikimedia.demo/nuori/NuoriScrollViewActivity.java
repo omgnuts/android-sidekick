@@ -25,6 +25,7 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
                 .setImageView(imageView)
                 .into();
 
+//        imageView.setImageResource(R.mipmap.guitar);
 //        imageView.setImageResource(R.mipmap.ic_launcher);
 //        imageView.setImageResource(R.mipmap.horizontal_image);
         ImageLoader.with(this).loadSampleImage(imageView);

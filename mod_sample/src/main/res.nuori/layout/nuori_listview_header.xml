@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:text="ALLOOOO..."
+        android:textColor="#333333"
+        android:background="@android:color/holo_blue_light"
+        android:textSize="24sp" />
 
     <ImageView
         android:id="@+id/image"
@@ -10,5 +22,13 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         />
+
+    <!--<com.mikimedia.android.view.XCropImageView-->
+        <!--android:id="@+id/image"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:scaleCropType="fit_fill"-->
+        <!--app:alignTo="top"-->
+        <!--/>-->
 
 </LinearLayout>

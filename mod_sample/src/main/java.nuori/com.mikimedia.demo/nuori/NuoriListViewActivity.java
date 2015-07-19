@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.mikimedia.android.nuori.Nuori;
 import com.mikimedia.android.nuori.NuoriParallaxListView;
+import com.mikimedia.demo.ImageLoader;
 import com.mikimedia.demo.R;
 
 public class NuoriListViewActivity extends AppCompatActivity {
@@ -29,8 +30,8 @@ public class NuoriListViewActivity extends AppCompatActivity {
                 .into();
 
 //        imageView.setImageResource(R.mipmap.ic_launcher);
-        imageView.setImageResource(R.mipmap.horizontal_image);
-//        ImageLoader.with(this).loadSampleImage(imageView);
+//        imageView.setImageResource(R.mipmap.horizontal_image);
+        ImageLoader.with(this).loadSampleImage(imageView);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
