@@ -21,8 +21,8 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile project(':library')
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.4b'
-//    compile 'com.jattcode:android-jumpstart:0.1'
+//    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.1.4b'
+//    compile 'com.mikimedia:android-jumpstart:0.11'
 
 }
 
@@ -33,6 +33,10 @@ dependencies {
 android {
     compileSdkVersion android_build_sdk_version as int
     buildToolsVersion android_build_tools_version as String
+
+    lintOptions {
+        warning 'InvalidPackage' // because of okio
+    }
 
     defaultConfig {
         minSdkVersion android_build_minsdk_version as int

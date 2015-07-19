@@ -75,7 +75,7 @@ public class XCropImageViewActivity extends AppCompatActivity {
         public View getView(int position, View view, ViewGroup parent) {
             ViewHolder holder;
             if (view == null) {
-                view = inflater.inflate(R.layout.xcrop_imageview, null);
+                view = inflater.inflate(R.layout.xcrop_imageview, parent, false);
                 holder = new ViewHolder(view);
             } else {
                 holder = (ViewHolder) view.getTag();
