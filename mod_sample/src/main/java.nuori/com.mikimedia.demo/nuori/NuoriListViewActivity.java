@@ -29,8 +29,8 @@ public class NuoriListViewActivity extends AppCompatActivity {
                 .setHeaderView(header)
                 .into();
 
-        imageView.setImageResource(R.mipmap.ic_launcher);
-//        imageView.setImageResource(R.mipmap.horizontal_image);
+//        imageView.setImageResource(R.mipmap.ic_launcher);
+        imageView.setImageResource(R.mipmap.horizontal_image);
 //        ImageLoader.with(this).loadSampleImage(imageView);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
