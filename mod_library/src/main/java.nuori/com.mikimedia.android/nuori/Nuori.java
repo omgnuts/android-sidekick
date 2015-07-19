@@ -161,7 +161,7 @@ public class Nuori {
                          int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
         if (!activated) return false;
 
-        deltaY *= mZoomRatio;
+        deltaY *= mZoomRatio * 2;
 
         if (imageView.getHeight() <= mMaxZoomHeight && isTouchEvent) {
             if (deltaY < 0) {

@@ -65,7 +65,7 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-//        nuori.onScrollChanged(l, t, oldl, oldt);
+        nuori.onScrollChanged(l, t, oldl, oldt);
     }
 
     @Override

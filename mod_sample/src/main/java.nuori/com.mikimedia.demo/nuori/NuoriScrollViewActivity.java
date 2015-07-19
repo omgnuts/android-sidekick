@@ -6,6 +6,7 @@ import android.widget.ImageView;
 
 import com.mikimedia.android.nuori.Nuori;
 import com.mikimedia.android.nuori.NuoriParallaxScrollView;
+import com.mikimedia.demo.ImageLoader;
 import com.mikimedia.demo.R;
 
 public class NuoriScrollViewActivity extends AppCompatActivity {
@@ -25,8 +26,8 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
                 .into();
 
 //        imageView.setImageResource(R.mipmap.ic_launcher);
-        imageView.setImageResource(R.mipmap.horizontal_image);
-//        ImageLoader.with(this).loadSampleImage(imageView);
+//        imageView.setImageResource(R.mipmap.horizontal_image);
+        ImageLoader.with(this).loadSampleImage(imageView);
 
 
     }
