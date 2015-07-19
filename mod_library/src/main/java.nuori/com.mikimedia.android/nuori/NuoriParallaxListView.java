@@ -26,14 +26,12 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
     private int mImageViewHeight = -1;
     private int mDefaultImageViewHeight = 0;
 
-    private interface OnOverScrollByListener {
-        boolean overScrollBy(int deltaX, int deltaY, int scrollX,
-                                    int scrollY, int scrollRangeX, int scrollRangeY,
-                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent);
-    }
+    private Nuori nuori = null;
 
-    private interface OnTouchEventListener {
-        void onTouchEvent(MotionEvent ev);
+    void setNuori(Nuori nuori) {
+        this.nuori = nuori;
+        mImageView = nuori.getImageView();
+        addHeaderView(nuori.getHeaderView());
     }
 
     public NuoriParallaxListView(Context context) {
@@ -46,8 +44,7 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
         init(context, attrs);
     }
 
-    public NuoriParallaxListView(Context context, AttributeSet attrs,
-                                 int defStyle) {
+    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs);
     }
@@ -58,13 +55,9 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
     }
 
     public void init(Context context, AttributeSet attrs) {
-        mDefaultImageViewHeight = context.getResources().getDimensionPixelSize(R.dimen.nuori_size_default_height);
 
-//        if (attrs != null) {
-//            TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
-//                    R.styleable.NuoriParallaxListView, 0, 0);
-//            mZoomRatio = a.getFloat(R.styleable.NuoriParallaxListView_zoomRatio, 1);
-//        }
+
+        mDefaultImageViewHeight = context.getResources().getDimensionPixelSize(R.dimen.nuori_size_default_height);
 
         post(new Runnable() {
             @Override
@@ -73,6 +66,17 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
             }
         });
     }
+
+    private interface OnOverScrollByListener {
+        boolean overScrollBy(int deltaX, int deltaY, int scrollX,
+                             int scrollY, int scrollRangeX, int scrollRangeY,
+                             int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent);
+    }
+
+    private interface OnTouchEventListener {
+        void onTouchEvent(MotionEvent ev);
+    }
+
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -118,11 +122,6 @@ public class NuoriParallaxListView extends ListView  implements OnScrollListener
     public boolean onTouchEvent(MotionEvent ev) {
         touchListener.onTouchEvent(ev);
         return super.onTouchEvent(ev);
-    }
-
-    public void setParallaxImageView(ImageView iv) {
-        mImageView = iv;
-        mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
     public void setViewsBounds(double zoomRatio) {

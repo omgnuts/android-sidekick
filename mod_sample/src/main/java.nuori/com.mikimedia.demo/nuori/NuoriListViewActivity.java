@@ -7,13 +7,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.mikimedia.android.nuori.Nuori;
 import com.mikimedia.android.nuori.NuoriParallaxListView;
 import com.mikimedia.demo.ImageLoader;
 import com.mikimedia.demo.R;
 
 public class NuoriListViewActivity extends AppCompatActivity {
-
-    NuoriParallaxListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +20,16 @@ public class NuoriListViewActivity extends AppCompatActivity {
 
         setContentView(R.layout.nuori_listview_activity);
 
-        listView = (NuoriParallaxListView) findViewById(R.id.list_view);
-
         View header = LayoutInflater.from(this).inflate(R.layout.nuori_listview_header, null);
-
         ImageView imageView = (ImageView) header.findViewById(R.id.image);
-        ImageLoader.with(this).loadSampleImage(imageView);
 
-        listView.setParallaxImageView(imageView);
-        listView.addHeaderView(header);
+        NuoriParallaxListView listView = (NuoriParallaxListView) findViewById(R.id.list_view);
+        Nuori.Builder.init()
+                .setImageView(imageView)
+                .setHeaderView(header)
+                .into(listView);
+
+        ImageLoader.with(this).loadSampleImage(imageView);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_expandable_list_item_1,
@@ -46,7 +46,9 @@ public class NuoriListViewActivity extends AppCompatActivity {
                         "....."
                 }
         );
+
         listView.setAdapter(adapter);
+
     }
 
 }
