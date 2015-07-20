@@ -235,7 +235,7 @@ public class Nuori {
 
             case MotionEvent.ACTION_UP:
                 if (mInitialHeight < mImageView.getHeight()) {
-                    bounceBack.start(mInitialHeight);
+                    bounceBack.start(mInitialHeight, mZoomMultiplier);
                 }
 
                 break;
@@ -253,32 +253,45 @@ public class Nuori {
         private float extraHeight;
 
         private float translateY;
+        private float deltaShifted;
+        private float endPointY;
 
         private final View view;
-        private final NuoriParallaxListView host;
+        private final NuoriParallaxScrollView host;
 
         private BounceBackAnimation(NuoriParallaxView host, View view) {
-            this.host = (NuoriParallaxListView)host;
+            this.host = (NuoriParallaxScrollView)host;
             this.view = view;
             setDuration(200);
             setAnimationListener(this);
 //            setFillAfter(true);
         }
 
-        private void start(int initialHeight) {
+        private void start(int initialHeight, float zoomMultiplier) {
             float zoomedHeight = view.getHeight();
             this.initialHeight = initialHeight;
             this.extraHeight = initialHeight - zoomedHeight;
 
-            Rect rect = new Rect();
-            Point point = new Point();
-            host.getChildVisibleRect(view, rect, point);
 
-            Parcelable parcel = host.onSaveInstanceState();
-            System.out.println(parcel);
+            float zoomed = (zoomedHeight / initialHeight);
 
-            System.out.println("rect.top " + rect.top);
-            System.out.println("point.y " + point.y);
+            float density = 3.0f;
+            float scrollY = host.getScrollY();
+
+            translateY = (zoomed - 1) / zoomed * (scrollY - view.getTop() * density);
+            deltaShifted = 0;
+
+            translateY = -translateY;
+            endPointY = scrollY + translateY;
+
+            System.out.println("..... initialHeight = " + initialHeight);
+            System.out.println("..... zoomedHeight = " + zoomedHeight);
+            System.out.println("..... view.getTop() = " + view.getTop());
+            System.out.println("..... zoomed = " + zoomed);
+            System.out.println("..... translateY = " + translateY);
+            System.out.println("..... scrollY = " + scrollY);
+            System.out.println("..... endPointY = " + endPointY);
+
             view.startAnimation(this);
         }
 
@@ -288,6 +301,10 @@ public class Nuori {
             int newHeight = (int) (initialHeight - extraHeight * (1 - interpolatedTime));
             view.getLayoutParams().height = newHeight;
             view.requestLayout();
+
+            int delta = (int) (translateY * (interpolatedTime) - deltaShifted);
+            deltaShifted += delta;
+            host.scrollBy(0, delta);
         }
 
         public void cancel() {
@@ -326,6 +343,8 @@ public class Nuori {
              * even when it is supposedly ended. This is a very bad android bug.
              */
             view.clearAnimation();
+
+//            host.scrollBy(0, (int) -translateY);
         }
 
         @Override
