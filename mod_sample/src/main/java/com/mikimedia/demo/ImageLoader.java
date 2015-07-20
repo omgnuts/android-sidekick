@@ -85,4 +85,8 @@ public class ImageLoader extends PicassoHandle {
     public void loadSampleImage(ImageView imageView, int n) {
         load(dataUri[n], imageView);
     }
+
+    public void loadSampleImage(Target target, int n) {
+        load(dataUri[n], target);
+    }
 }

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
@@ -71,7 +72,22 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
         return super.onTouchEvent(ev);
     }
 
-    float computePerspectiveOffset(float zoomed, float nonZoomablePart) {
-        return -1 * (zoomed - 1) / zoomed * (getScrollY() - nonZoomablePart);
+    private final int FAT_FINGERS = 0;
+
+    public float computePerspectiveOffset(int initHeightPx, float zoomed,float nonZoomablePart) {
+        float offset = 0;
+        int scrollY = getScrollY();
+
+        if (zoomed > 1.0) {
+            offset = -1 * (zoomed - 1) / zoomed * (scrollY - nonZoomablePart);
+        }
+
+        if (scrollY + offset - FAT_FINGERS > nonZoomablePart + initHeightPx) {
+//            Log.d(TAG, "offset changed before = " + offset);
+            offset = nonZoomablePart + 0.8f * initHeightPx - scrollY;
+//            Log.d(TAG, "offset changed after = " + offset);
+        }
+
+        return offset;
     }
 }

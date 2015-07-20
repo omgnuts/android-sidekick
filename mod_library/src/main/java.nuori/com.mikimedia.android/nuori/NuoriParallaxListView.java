@@ -67,4 +67,7 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
         return super.onTouchEvent(ev);
     }
 
+    public float computePerspectiveOffset(int initHeightPx, float zoomed,float nonZoomablePart) {
+        return 0;
+    }
 }

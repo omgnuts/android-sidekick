@@ -37,24 +37,28 @@ public class NuoriListViewActivity extends AppCompatActivity {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 imageView.setImageBitmap(bitmap);
-                nuori.notifyViewBoundsChanged();
+//                nuori.notifyViewBoundsChanged();
             }
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
                 imageView.setImageDrawable(errorDrawable);
+//                nuori.notifyViewBoundsChanged();
             }
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
                 imageView.setImageDrawable(placeHolderDrawable);
+//                nuori.notifyViewBoundsChanged();
             }
         };
 
 //        imageView.setImageResource(R.mipmap.ic_launcher);
 //        imageView.setImageResource(R.mipmap.horizontal_image);
 //        imageView.setImageResource(R.mipmap.vertical_long);
-        ImageLoader.with(this).loadSampleImage(target);
+//        ImageLoader.with(this).loadSampleImage(target);
+//        ImageLoader.with(this).loadSampleImage(target, 4);
+        ImageLoader.with(this).loadSampleImage(imageView);
 //        ImageLoader.with(this).loadSampleImage(imageView, 4);
 
         String[] items = new String[200];

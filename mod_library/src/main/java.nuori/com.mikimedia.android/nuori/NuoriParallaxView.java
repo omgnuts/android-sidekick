@@ -9,8 +9,7 @@ interface NuoriParallaxView {
     Nuori getNuori();
     Nuori setNuori(Nuori nuori);
 
-//    float computePerspectiveOffset();
-
-    boolean post(Runnable runnable);
+    float computePerspectiveOffset(int initHeightPx, float zoomed,float nonZoomablePart);
+    void scrollBy(int x, int y);
 
 }
