@@ -2,7 +2,10 @@ package com.mikimedia.android.nuori;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -153,17 +156,17 @@ public class Nuori {
         if (mImageView.getDrawable() != null) {
             int dw = mImageView.getDrawable().getIntrinsicWidth();
             int dh = mImageView.getDrawable().getIntrinsicHeight();
-            Log.d(TAG, "dh = " + dh);
-            Log.d(TAG, "dw = " + dw);
-            Log.d(TAG, "width = " + mImageView.getWidth());
+//            Log.d(TAG, "dh = " + dh);
+//            Log.d(TAG, "dw = " + dw);
+//            Log.d(TAG, "width = " + mImageView.getWidth());
 
             final double ratio = ((double) mImageView.getWidth()) / dw;
             mMaxZoomHeight = (int) (dh * ratio * mZoomRatio);
             mZoomMultiplier = (float) mMaxZoomHeight / mInitialHeight;
-            Log.d(TAG, "ratio = " + ratio);
-            Log.d(TAG, "mMaxZoomHeight = " + mMaxZoomHeight);
-            Log.d(TAG, "mInitialHeight = " + mInitialHeight);
-            Log.d(TAG, "mZoomMultiplier A= " + mZoomMultiplier);
+//            Log.d(TAG, "ratio = " + ratio);
+//            Log.d(TAG, "mMaxZoomHeight = " + mMaxZoomHeight);
+//            Log.d(TAG, "mInitialHeight = " + mInitialHeight);
+//            Log.d(TAG, "mZoomMultiplier A= " + mZoomMultiplier);
 
             mActivated = true;
         } else {
@@ -252,10 +255,10 @@ public class Nuori {
         private float translateY;
 
         private final View view;
-        private final NuoriParallaxView host;
+        private final NuoriParallaxListView host;
 
         private BounceBackAnimation(NuoriParallaxView host, View view) {
-            this.host = host;
+            this.host = (NuoriParallaxListView)host;
             this.view = view;
             setDuration(200);
             setAnimationListener(this);
@@ -267,6 +270,15 @@ public class Nuori {
             this.initialHeight = initialHeight;
             this.extraHeight = initialHeight - zoomedHeight;
 
+            Rect rect = new Rect();
+            Point point = new Point();
+            host.getChildVisibleRect(view, rect, point);
+
+            Parcelable parcel = host.onSaveInstanceState();
+            System.out.println(parcel);
+
+            System.out.println("rect.top " + rect.top);
+            System.out.println("point.y " + point.y);
             view.startAnimation(this);
         }
 

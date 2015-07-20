@@ -70,5 +70,4 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
         nuori.onTouchEvent(ev);
         return super.onTouchEvent(ev);
     }
-
 }
