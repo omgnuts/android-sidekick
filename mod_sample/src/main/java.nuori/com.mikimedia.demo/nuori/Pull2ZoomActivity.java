@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
 import com.mikimedia.android.nuori.PullToZoomListView;
+import com.mikimedia.demo.ImageLoader;
 import com.mikimedia.demo.R;
 
 public class Pull2ZoomActivity extends AppCompatActivity {
@@ -34,8 +35,10 @@ public class Pull2ZoomActivity extends AppCompatActivity {
 		);
 
 		listView.setAdapter(adapter);
-        listView.getHeaderView().setImageResource(R.mipmap.horizontal_image);
+//        listView.getHeaderView().setImageResource(R.mipmap.horizontal_image);
         listView.getHeaderView().setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+		ImageLoader.with(this).loadSampleImage(listView.getHeaderView());
 	}
 
 }

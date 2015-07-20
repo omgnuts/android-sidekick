@@ -164,15 +164,21 @@ public class Nuori {
                     int dh = mImageView.getDrawable().getIntrinsicHeight();
                     final double ratio = ((double) mImageView.getWidth()) / dw;
                     mMaxZoomHeight = (int) (dh * ratio * mZoomRatio);
+
+                    if (mMaxZoomHeight < mZoomRatio * mInitialHeightPx) {
+                        mMaxZoomHeight = (int) (mZoomRatio * mInitialHeightPx);
+                    }
+
                     mZoomMultiplier = (float) mMaxZoomHeight / mInitialHeightPx;
 
-                    Log.d(TAG, "dh = " + dh);
-                    Log.d(TAG, "dw = " + dw);
-                    Log.d(TAG, "width = " + mImageView.getWidth());
-                    Log.d(TAG, "ratio = " + ratio);
-                    Log.d(TAG, "mMaxZoomHeight = " + mMaxZoomHeight);
-                    Log.d(TAG, "mInitialHeight = " + mInitialHeightPx);
-                    Log.d(TAG, "mZoomMultiplier A= " + mZoomMultiplier);
+//                    Log.d(TAG, "dh = " + dh);
+//                    Log.d(TAG, "dw = " + dw);
+//                    Log.d(TAG, "width = " + mImageView.getWidth());
+//                    Log.d(TAG, "ratio = " + ratio);
+//                    Log.d(TAG, "mZoomRatio = " + mZoomRatio);
+//                    Log.d(TAG, "mMaxZoomHeight = " + mMaxZoomHeight);
+//                    Log.d(TAG, "mInitialHeight = " + mInitialHeightPx);
+//                    Log.d(TAG, "mZoomMultiplier A= " + mZoomMultiplier);
 
                     mActivated = true;
                 } else {

@@ -5,10 +5,9 @@
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="100dp"
-    app:zoomRatio="2.5"
-    app:heightToScreenRatio="0.5">
-
+    app:zoomRatio="1.5"
+    app:heightToScreenRatio="0.4">
+    <!--android:paddingTop="100dp"-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="@android:color/holo_red_light"

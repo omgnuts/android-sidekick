@@ -26,13 +26,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".nuori.NuoriListViewActivity">
+        <activity android:name=".nuori.NuoriListViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".nuori.NuoriScrollViewActivity">
+        <activity android:name=".nuori.NuoriScrollViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>

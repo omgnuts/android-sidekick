@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:text="ALLOOOO..."
-        android:textColor="#333333"
-        android:background="@android:color/holo_blue_light"
-        android:textSize="24sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/textView1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:text="ALLOOOO..."-->
+        <!--android:textColor="#333333"-->
+        <!--android:background="@android:color/holo_blue_light"-->
+        <!--android:textSize="24sp" />-->
 
     <!--<ImageView-->
         <!--android:id="@+id/image"-->
