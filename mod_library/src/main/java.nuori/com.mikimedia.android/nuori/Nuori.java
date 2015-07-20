@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,29 @@ import com.mikimedia.android.R;
 
 public class Nuori {
 
+    private static final String TAG = Nuori.class.getSimpleName();
+
     public static Nuori from(NuoriParallaxView view) {
         return view.getNuori();
     }
 
-    private static final float MULTIPLIER = 1.5f;
+
+    /**
+     * The host for nuori
+     */
+    private final NuoriParallaxView mHost;
+
+    /**
+     * Sets the image view height relative to the screen
+     */
+    private final  float mHeightToScreen;
+    private static final float DEFAULT_SCREEN_TO_HEIGHT = 0.5f;
+
+    /**
+     * Determines the theoretical zoom for the image view
+     */
+    private float mZoomRatio;
+    private static final float DEFAULT_ZOOM_RATIO = 2.0f;
 
     /**
      * Activated is only set true after prepare is called.
@@ -27,40 +46,35 @@ public class Nuori {
      */
     private boolean mActivated = false;
 
-    private final NuoriParallaxView mParent;
-    private ImageView mImageView = null;
-    private View mHeaderView = null;
-
     /**
-     * Sets the image view height relative to the screen
+     * determines the initial height of the image view.
+     * this is needed to tell the bounce animation what height to revert to
      */
-    private float mHeightToScreen = 0.5f;
     private int mInitialHeight = -1;
 
     /**
-     * Determines the theoretical zoom for the image view
+     * maxZoomHeight is a calculated via mZoomRatio x intrinsic height of drawable
      */
-    private float mZoomRatio = 2.0f;
     private int mMaxZoomHeight = -1;
+
+    private ImageView mImageView = null;
+    private View mHeaderView = null;
 
 
     /**
      * Nuori is instantiated from within the mParent
-     * @param parent
+     * @param mHost
      */
-    Nuori(NuoriParallaxView parent) {
-        this.mParent = parent;
-    }
-
-    void initFromAttributes(Context context, AttributeSet attrs,
-                                 int defStyleAttr, int defStyleRes) {
+    Nuori(NuoriParallaxView host, Context context, AttributeSet attrs,
+          int defStyleAttr, int defStyleRes) {
+        this.mHost = host;
         // Read and apply provided attributes
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.NuoriParallaxView, defStyleAttr, defStyleRes);
-        mZoomRatio = a.getFloat(R.styleable.NuoriParallaxView_zoomRatio, mZoomRatio);
-        mHeightToScreen = a.getFloat(R.styleable.NuoriParallaxView_heightToScreenRatio, mHeightToScreen);
+        mZoomRatio = a.getFloat(R.styleable.NuoriParallaxView_zoomRatio, DEFAULT_ZOOM_RATIO);
+        mHeightToScreen = a.getFloat(R.styleable.NuoriParallaxView_heightToScreenRatio,
+                DEFAULT_SCREEN_TO_HEIGHT);
         a.recycle();
-
     }
 
     public Nuori setImageView(ImageView imageView) {
@@ -89,7 +103,7 @@ public class Nuori {
         }
 
         if (mHeaderView == null) {
-            if (mParent instanceof NuoriParallaxListView) {
+            if (mHost instanceof NuoriParallaxListView) {
                 throw new NullPointerException("No header view has been set");
             }
         }
@@ -100,7 +114,7 @@ public class Nuori {
 
         prepare();
 
-        mParent.setNuori(this);
+        mHost.setNuori(this);
     }
 
     /**
@@ -110,13 +124,13 @@ public class Nuori {
 
         bounceBack = new BounceBackAnimation(mImageView);
 
-        mInitialHeight = (int) (mHeightToScreen * mParent.getContext()
+        mInitialHeight = (int) (mHeightToScreen * mHost.getContext()
                 .getResources().getDisplayMetrics().heightPixels);
         mImageView.getLayoutParams().height = mInitialHeight;
         mImageView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
         mImageView.requestLayout();
 
-        mParent.post(new Runnable() {
+        mHost.post(new Runnable() {
             @Override
             public void run() {
                 /**
@@ -161,33 +175,36 @@ public class Nuori {
     /**
      * All the values here are primitive. No worries about affecting the values in the calling function
      */
-    boolean overScrollBy(int deltaX, int deltaY, int scrollX,
+    void overScrollBy(int deltaX, int deltaY, int scrollX,
                          int scrollY, int scrollRangeX, int scrollRangeY,
                          int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-        if (!mActivated) return false;
+        if (!mActivated) return;
 
-        System.out.println("...... mImageView.getHeight() = " + mImageView.getHeight());
-        System.out.println("...... mMaxZoomHeight = " + mMaxZoomHeight);
-        System.out.println("...... deltaY = " + deltaY);
+//        Log.d(TAG, "...... mImageView.getHeight() = " + mImageView.getHeight());
+//        Log.d(TAG, "...... mMaxZoomHeight = " + mMaxZoomHeight);
+//        Log.d(TAG, "...... deltaX = " + deltaX);
+//        Log.d(TAG, "...... deltaY = " + deltaY);
+//        Log.d(TAG, "...... scrollX = " + scrollX);
+//        Log.d(TAG, "...... scrollY = " + scrollY);
+//        Log.d(TAG, "...... maxOverScrollX = " + maxOverScrollX);
+//        Log.d(TAG, "...... maxOverScrollY = " + maxOverScrollY);
 
         // isTouchEvent - not due to fling or other motions. User is actually touching
-        if (mImageView.getHeight() <= mMaxZoomHeight && isTouchEvent) {
+        if (mImageView.getHeight() <= mMaxZoomHeight && isTouchEvent && scrollY <= 0) {
             if (deltaY < 0) { // downard swipe
-                int futureH = (int) (mImageView.getHeight() - deltaY * mZoomRatio);
-                if (futureH >= mInitialHeight) {
-                    mImageView.getLayoutParams().height = futureH < mMaxZoomHeight ? futureH : mMaxZoomHeight;
+                int futureY = (int) (mImageView.getHeight() - deltaY * mZoomRatio);
+                if (futureY >= mInitialHeight) {
+                    mImageView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
                     mImageView.requestLayout();
                 }
             } else { // upward swipe
                 if (mImageView.getHeight() > mInitialHeight) {
-                    int futureH = (int) (mImageView.getHeight() - deltaY);
-                    mImageView.getLayoutParams().height = futureH > mInitialHeight ? futureH : mInitialHeight;
+                    int futureY = mImageView.getHeight() - deltaY;
+                    mImageView.getLayoutParams().height = futureY > mInitialHeight ? futureY : mInitialHeight;
                     mImageView.requestLayout();
-//                    return true;
                 }
             }
         }
-        return false;
     }
 
     void onTouchEvent(MotionEvent ev) {
@@ -202,6 +219,7 @@ public class Nuori {
                 if (mInitialHeight < mImageView.getHeight()) {
                     bounceBack.start(mInitialHeight);
                 }
+
                 break;
         }
     }

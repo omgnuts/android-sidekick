@@ -9,7 +9,7 @@ import android.widget.ScrollView;
 
 public class NuoriParallaxScrollView extends ScrollView implements NuoriParallaxView {
 
-    private final Nuori nuori = new Nuori(this);
+    private final Nuori nuori;
 
     public Nuori getNuori() {
         return this.nuori;
@@ -24,23 +24,23 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
 
     public NuoriParallaxScrollView(Context context) {
         super(context);
-        nuori.initFromAttributes(context, null, 0, 0);
+        nuori = new Nuori(this, context, null, 0, 0);
     }
 
     public NuoriParallaxScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        nuori.initFromAttributes(context, attrs, 0, 0);
+        nuori = new Nuori(this, context, attrs, 0, 0);
     }
 
-    public NuoriParallaxScrollView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        nuori.initFromAttributes(context, attrs, defStyle, 0);
+    public NuoriParallaxScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        nuori = new Nuori(this, context, attrs, defStyleAttr, 0);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public NuoriParallaxScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        nuori.initFromAttributes(context, attrs, defStyleAttr, defStyleRes);
+        nuori = new Nuori(this, context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
@@ -48,18 +48,14 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
 
-        boolean isCollapseAnimation = nuori.overScrollBy(deltaX, deltaY,
-                scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
-                maxOverScrollY, isTouchEvent);
+        final boolean returnValue = super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
+                scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
 
-        boolean res = isCollapseAnimation ? true : super.overScrollBy(deltaX, deltaY,
-                scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX,
-                maxOverScrollY, isTouchEvent);
+        // performs the overscroll
+        nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
+                maxOverScrollX, maxOverScrollY, isTouchEvent);
 
-        System.out.println(res);
-
-        return res;
-
+        return returnValue;
     }
 
     @Override
