@@ -23,6 +23,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.mikimedia.android.component.PicassoHandle;
+import com.squareup.picasso.Target;
 
 import java.util.Random;
 
@@ -69,9 +70,19 @@ public class ImageLoader extends PicassoHandle {
         return singleton;
     }
 
+    public void loadSampleImage(Target target) {
+        Random rand = new Random();
+        int n = rand.nextInt(dataUri.length - 1);
+        load(dataUri[n], target);
+    }
+
     public void loadSampleImage(ImageView imageView) {
         Random rand = new Random();
         int n = rand.nextInt(dataUri.length - 1);
+        load(dataUri[n], imageView);
+    }
+
+    public void loadSampleImage(ImageView imageView, int n) {
         load(dataUri[n], imageView);
     }
 }

@@ -15,11 +15,12 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
         return this.nuori;
     }
 
-    public void setNuori(Nuori nuori) {
+    public Nuori setNuori(Nuori nuori) {
         if (!nuori.equals(this.nuori)) {
             throw new IllegalStateException("Don't just change the nuori!");
         }
         addHeaderView(nuori.getHeaderView());
+        return nuori;
     }
 
     public NuoriParallaxListView(Context context) {

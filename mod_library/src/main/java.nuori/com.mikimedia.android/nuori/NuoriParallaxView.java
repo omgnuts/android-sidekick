@@ -5,7 +5,7 @@ import android.content.Context;
 interface NuoriParallaxView {
 
     Nuori getNuori();
-    void setNuori(Nuori nuori);
+    Nuori setNuori(Nuori nuori);
 
     Context getContext();
     int getPaddingTop();
