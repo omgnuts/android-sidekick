@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.mikimedia.android.component.PicassoTopCropTransform;
 import com.mikimedia.android.nuori.Nuori;
 import com.mikimedia.android.nuori.NuoriParallaxScrollView;
 import com.mikimedia.demo.ImageLoader;
@@ -24,7 +25,6 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.nuori_scrollview_activity);
-
 
         final ImageView imageView = (ImageView) findViewById(R.id.image);
 
@@ -53,9 +53,8 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
             }
         };
 
-        final Point size = nuori.getCropSize();
-//        ImageLoader.with(this).loadSampleImage(target, size);
-        final BitmapTransform transformer = new BitmapTransform(size.x, size.y);
+        final Point size = nuori.getPreCachedSize();
+        final Transformation transformer = new PicassoTopCropTransform(size.x, size.y);
         ImageLoader.with(this).loadSampleImage(target, transformer);
 
 //        imageView.setImageResource(R.mipmap.guitar);
@@ -67,75 +66,6 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
 //        ImageLoader.with(this).loadSampleImage(imageView);
 //        ImageLoader.with(this).loadSampleImage(imageView, 4);
 
-    }
-
-    private static class BitmapTransform implements  Transformation {
-
-        private final int width;
-        private final int height;
-
-        private final Matrix matrix;
-
-        private BitmapTransform(int width, int height) {
-            this.width = width;
-            this.height = height;
-
-            this.matrix = new Matrix();
-        }
-
-        @Override
-        public Bitmap transform(Bitmap source) {
-
-            int bw = source.getWidth();
-            int bh = source.getHeight();
-
-            float scale = (width * bh > height * bw) ? (float) width / bw : (float) height / bh;
-
-            float nw, nh;
-            float dx;
-
-            if (scale > 1.0) {
-
-                nw = width * 1.0f / scale;
-                nh = height * 1.0f / scale;
-                dx = (bw - nw) * 0.5f;
-                scale = 1.0f;
-            } else {
-                nw = width;
-                nh = height;
-                dx = (bw - nw) * 0.5f;
-            }
-
-            Log.d("NN", "bw = " + bw);
-            Log.d("NN", "bh = " + bh);
-
-            Log.d("NN", "w/bw = " + (float) width / bw);
-            Log.d("NN", "h/bh = " + (float) height / bh);
-
-            Log.d("NN", "nw = " + nw);
-            Log.d("NN", "nh = " + nh);
-
-            Log.d("NN", "scale = " + scale);
-            Log.d("NN", "dx = " + dx);
-
-            matrix.setScale(scale, scale);
-
-            Bitmap bitmap = Bitmap.createBitmap(source, (int)dx, 0, (int)nw, (int)nh, matrix, false);
-            if (!bitmap.equals(source)) {
-                source.recycle();
-            }
-
-            Log.d("NN", "xw = " + bitmap.getWidth());
-            Log.d("NN", "xh = " + bitmap.getHeight());
-
-            return bitmap;
-
-        }
-
-        @Override
-        public String key() {
-            return "nuori";
-        }
     }
 
 }

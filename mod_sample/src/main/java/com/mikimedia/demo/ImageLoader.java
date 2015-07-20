@@ -81,13 +81,13 @@ public class ImageLoader extends PicassoHandle {
     public void loadSampleImage(Target target, Transformation transformation) {
         Random rand = new Random();
         int n = rand.nextInt(dataUri.length - 1);
-        load(dataUri[n], target, transformation);
+        loadTransform(dataUri[n], target, transformation);
     }
 
     public void loadSampleImage(Target target, Point size) {
         Random rand = new Random();
         int n = rand.nextInt(dataUri.length - 1);
-        load(dataUri[n], target, size);
+        loadResize(dataUri[n], target, size);
     }
 
     public void loadSampleImage(ImageView imageView) {

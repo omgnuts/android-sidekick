@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.mikimedia.android.component.PicassoTopCropTransform;
 import com.mikimedia.android.nuori.Nuori;
 import com.mikimedia.android.nuori.NuoriParallaxListView;
 import com.mikimedia.demo.ImageLoader;
 import com.mikimedia.demo.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 public class NuoriListViewActivity extends AppCompatActivity {
 
@@ -54,17 +56,17 @@ public class NuoriListViewActivity extends AppCompatActivity {
             }
         };
 
-//        final Point size = nuori.getCropSize();
-//        ImageLoader.with(this).loadSampleImage(target, size);
+        final Point size = nuori.getPreCachedSize();
+        final Transformation transformer = new PicassoTopCropTransform(size.x, size.y);
+        ImageLoader.with(this).loadSampleImage(target, transformer);
 
 //        imageView.setImageResource(R.mipmap.ic_launcher);
 //        imageView.setImageResource(R.mipmap.horizontal_image);
 //        imageView.setImageResource(R.mipmap.vertical_long);
-        ImageLoader.with(this).loadSampleImage(target);
+//        ImageLoader.with(this).loadSampleImage(target);
 //        ImageLoader.with(this).loadSampleImage(target, 4);
 //        ImageLoader.with(this).loadSampleImage(imageView);
 //        ImageLoader.with(this).loadSampleImage(imageView, 4);
-
 
 
         String[] items = new String[200];

@@ -105,7 +105,7 @@ public abstract class PicassoHandle {
         return this.manager;
     }
 
-    public void load(String path, Target target, Transformation transformer) {
+    public void loadTransform(String path, Target target, Transformation transformer) {
         picasso.load(path)
                 .placeholder(onLoadDrawable)
                 .error(onErrorDrawable)
@@ -113,12 +113,12 @@ public abstract class PicassoHandle {
                 .into(target);
     }
 
-    public void load(String path, Target target, Point size) {
+    public void loadResize(String path, Target target, Point size) {
         picasso.load(path)
                 .placeholder(onLoadDrawable)
                 .error(onErrorDrawable)
                 .resize(size.x, size.y)
-                .onlyScaleDown()
+                .centerCrop()
                 .into(target);
     }
 

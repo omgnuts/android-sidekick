@@ -127,6 +127,17 @@ public class Nuori {
         return mHost.setNuori(this);
     }
 
+    public Point getPreCachedSize() {
+        Point size = new Point();
+        final DisplayMetrics metrics = mHost.getContext().getResources().getDisplayMetrics();
+        float hts = mHeightToScreen + 0.1f; // add a small buff to height to screen so theres a little drag.
+        if (hts > 1.0f) hts = 1.0f;
+
+        size.x = metrics.widthPixels;
+        size.y = (int) (hts * metrics.heightPixels);
+        return size;
+    }
+
     /**
      * Preparation before we set the objects into the mParent
      */
@@ -144,17 +155,6 @@ public class Nuori {
         mImageView.requestLayout();
 
         if (auto) notifyViewBoundsChanged();
-    }
-
-    public Point getCropSize() {
-        Point size = new Point();
-        final DisplayMetrics metrics = mHost.getContext().getResources().getDisplayMetrics();
-        float hts = mHeightToScreen + 0.1f; // add a small buff to height to screen so theres a little drag.
-        if (hts > 1.0f) hts = 1.0f;
-
-        size.x = metrics.widthPixels;
-        size.y = (int) (hts * metrics.heightPixels);
-        return size;
     }
 
     /**
