@@ -142,8 +142,8 @@ public class PullToZoomListView extends ListView implements
 	public boolean onTouchEvent(MotionEvent paramMotionEvent) {
 		Log.d("mmm", "" + (0xFF & paramMotionEvent.getAction()));
 		switch (0xFF & paramMotionEvent.getAction()) {
-		case 4:
-		case 0:
+		case 4: //ACTION_OUTSIDE
+		case 0: //ACTION_DOWN
 			if (!this.mScalingRunnalable.mIsFinished) {
 				this.mScalingRunnalable.abortAnimation();
 			}
@@ -152,7 +152,7 @@ public class PullToZoomListView extends ListView implements
 			this.mMaxScale = (this.mScreenHeight / this.mHeaderHeight);
 			this.mLastScale = (this.mHeaderContainer.getBottom() / this.mHeaderHeight);
 			break;
-		case 2:
+		case 2: //ACTION_MOVE
 			Log.d("mmm", "mActivePointerId" + mActivePointerId);
 			int j = paramMotionEvent.findPointerIndex(this.mActivePointerId);
 			if (j == -1) {
@@ -185,21 +185,21 @@ public class PullToZoomListView extends ListView implements
 				this.mLastMotionY = paramMotionEvent.getY(j);
 			}
 			break;
-		case 1:
+		case 1: //ACTION_UP
 			reset();
 			endScraling();
 			break;
-		case 3:
+		case 3: //ACTION_CANCEL
 			int i = paramMotionEvent.getActionIndex();
 			this.mLastMotionY = paramMotionEvent.getY(i);
 			this.mActivePointerId = paramMotionEvent.getPointerId(i);
 			break;
-		case 5:
+		case 5: //ACTION_POINTER_DOWN
 			onSecondaryPointerUp(paramMotionEvent);
 			this.mLastMotionY = paramMotionEvent.getY(paramMotionEvent
 					.findPointerIndex(this.mActivePointerId));
 			break;
-		case 6:
+		case 6: //ACTION_POINTER_UP
 		}
 		return super.onTouchEvent(paramMotionEvent);
 	}

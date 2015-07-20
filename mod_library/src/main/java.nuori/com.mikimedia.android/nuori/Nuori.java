@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ImageView;
@@ -203,16 +204,6 @@ public class Nuori {
     void onScrollChanged(int l, int t, int oldl, int oldt) {
         if (!mActivated) return;
 
-//        View firstView = (View) mImageView.getParent();
-//        // firstView.getTop < getPaddingTop means mImageView will be covered by top padding,
-//        // so we can layout it to make it shorter
-//        if (firstView.getTop() < mHost.getPaddingTop() && mImageView.getHeight() > mInitialHeight) {
-//            mImageView.getLayoutParams().height = Math.max(mImageView.getHeight() - (mHost.getPaddingTop() - firstView.getTop()), mInitialHeight);
-//            // to set the firstView.mTop to 0,
-//            // maybe use View.setTop() is more easy, but it just support from Android 3.0 (API 11)
-//            firstView.layout(firstView.getLeft(), 0, firstView.getRight(), firstView.getHeight());
-//            mImageView.requestLayout();
-//        }
     }
 
     /**
@@ -233,7 +224,7 @@ public class Nuori {
 //        Log.d(TAG, "...... maxOverScrollY = " + maxOverScrollY);
 
         // isTouchEvent - not due to fling or other motions. User is actually touching
-        if (mImageView.getHeight() <= mMaxZoomHeight && isTouchEvent && scrollY <= 0) {
+        if (mImageView.getHeight() <= mMaxZoomHeight && isTouchEvent && scrollY <= 0) { // scrollY clamped
             if (deltaY < 0) { // downard swipe
                 int futureY = (int) (mImageView.getHeight() - deltaY * mZoomMultiplier);
                 if (futureY >= mInitialHeightPx) {
@@ -290,6 +281,7 @@ public class Nuori {
             setDuration(200);
             setAnimationListener(this);
 //            setFillAfter(true);
+            setInterpolator(new AccelerateDecelerateInterpolator());
         }
 
         private void start(int initHeightPx, float density) {

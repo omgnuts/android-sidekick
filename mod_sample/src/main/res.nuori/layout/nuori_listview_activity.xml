@@ -11,8 +11,8 @@
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:zoomRatio="2.5"
-        app:heightToScreenRatio="0.5"
+        app:zoomRatio="1.2"
+        app:heightToScreenRatio="0.6"
     />
 
 </RelativeLayout>
