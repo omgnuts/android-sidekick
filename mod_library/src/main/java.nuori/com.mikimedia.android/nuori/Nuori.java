@@ -103,7 +103,7 @@ public class Nuori {
     }
 
     public Nuori into() {
-        return into(true);
+        return into(false);
     }
 
     public Nuori into(boolean auto) {
@@ -138,13 +138,23 @@ public class Nuori {
         final DisplayMetrics metrics = mHost.getContext().getResources().getDisplayMetrics();
         mScreenDensity = metrics.density;
         mInitialHeightPx = (int) (mHeightToScreen * metrics.heightPixels);
+
         mImageView.getLayoutParams().height = mInitialHeightPx;
         mImageView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
         mImageView.requestLayout();
 
-//        Log.d(TAG, "screen height" + metrics.heightPixels);
-
         if (auto) notifyViewBoundsChanged();
+    }
+
+    public Point getCropSize() {
+        Point size = new Point();
+        final DisplayMetrics metrics = mHost.getContext().getResources().getDisplayMetrics();
+        float hts = mHeightToScreen + 0.1f; // add a small buff to height to screen so theres a little drag.
+        if (hts > 1.0f) hts = 1.0f;
+
+        size.x = metrics.widthPixels;
+        size.y = (int) (hts * metrics.heightPixels);
+        return size;
     }
 
     /**
@@ -165,8 +175,10 @@ public class Nuori {
                     final double ratio = ((double) mImageView.getWidth()) / dw;
                     mMaxZoomHeight = (int) (dh * ratio * mZoomRatio);
 
-                    if (mMaxZoomHeight < mZoomRatio * mInitialHeightPx) {
-                        mMaxZoomHeight = (int) (mZoomRatio * mInitialHeightPx);
+                    // setting a minimum so all images can zoom nicely :D
+                    float minZoomHeight = mZoomRatio * mInitialHeightPx;
+                    if (mMaxZoomHeight < minZoomHeight) {
+                        mMaxZoomHeight = (int) minZoomHeight;
                     }
 
                     mZoomMultiplier = (float) mMaxZoomHeight / mInitialHeightPx;

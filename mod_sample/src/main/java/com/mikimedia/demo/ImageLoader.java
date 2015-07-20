@@ -20,10 +20,12 @@
 package com.mikimedia.demo;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.widget.ImageView;
 
 import com.mikimedia.android.component.PicassoHandle;
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 import java.util.Random;
 
@@ -74,6 +76,18 @@ public class ImageLoader extends PicassoHandle {
         Random rand = new Random();
         int n = rand.nextInt(dataUri.length - 1);
         load(dataUri[n], target);
+    }
+
+    public void loadSampleImage(Target target, Transformation transformation) {
+        Random rand = new Random();
+        int n = rand.nextInt(dataUri.length - 1);
+        load(dataUri[n], target, transformation);
+    }
+
+    public void loadSampleImage(Target target, Point size) {
+        Random rand = new Random();
+        int n = rand.nextInt(dataUri.length - 1);
+        load(dataUri[n], target, size);
     }
 
     public void loadSampleImage(ImageView imageView) {

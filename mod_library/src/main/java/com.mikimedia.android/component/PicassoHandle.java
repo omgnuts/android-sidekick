@@ -23,6 +23,7 @@ package com.mikimedia.android.component;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Environment;
 import android.os.StatFs;
@@ -33,8 +34,11 @@ import com.squareup.picasso.LruCache;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
+
+import javax.xml.transform.Transformer;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 import static android.content.pm.ApplicationInfo.FLAG_LARGE_HEAP;
@@ -99,6 +103,23 @@ public abstract class PicassoHandle {
 
     public CacheManager getCacheManager() {
         return this.manager;
+    }
+
+    public void load(String path, Target target, Transformation transformer) {
+        picasso.load(path)
+                .placeholder(onLoadDrawable)
+                .error(onErrorDrawable)
+                .transform(transformer)
+                .into(target);
+    }
+
+    public void load(String path, Target target, Point size) {
+        picasso.load(path)
+                .placeholder(onLoadDrawable)
+                .error(onErrorDrawable)
+                .resize(size.x, size.y)
+                .onlyScaleDown()
+                .into(target);
     }
 
     public void load(String path, Target target) {

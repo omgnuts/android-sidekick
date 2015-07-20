@@ -1,6 +1,7 @@
 package com.mikimedia.demo.nuori;
 
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -53,6 +54,9 @@ public class NuoriListViewActivity extends AppCompatActivity {
             }
         };
 
+//        final Point size = nuori.getCropSize();
+//        ImageLoader.with(this).loadSampleImage(target, size);
+
 //        imageView.setImageResource(R.mipmap.ic_launcher);
 //        imageView.setImageResource(R.mipmap.horizontal_image);
 //        imageView.setImageResource(R.mipmap.vertical_long);
@@ -60,6 +64,8 @@ public class NuoriListViewActivity extends AppCompatActivity {
 //        ImageLoader.with(this).loadSampleImage(target, 4);
 //        ImageLoader.with(this).loadSampleImage(imageView);
 //        ImageLoader.with(this).loadSampleImage(imageView, 4);
+
+
 
         String[] items = new String[200];
         for (int c = 0; c < items.length; c++) {
