@@ -53,7 +53,7 @@ public class Nuori {
      * determines the initial height of the image view.
      * this is needed to tell the bounce animation what height to revert to
      */
-    private int mInitialHeight = -1;
+    private int mInitialHeightPx = -1;
 
     /**
      * maxZoomHeight is a calculated via mZoomRatio x intrinsic height of drawable
@@ -64,6 +64,7 @@ public class Nuori {
     private View mHeaderView = null;
 
     private float mZoomMultiplier = -1;
+    private float mScreenDensity = -1;
 
     /**
      * Nuori is instantiated from within the mParent
@@ -131,10 +132,13 @@ public class Nuori {
         bounceBack = new BounceBackAnimation(mHost, mImageView);
 
         final DisplayMetrics metrics = mHost.getContext().getResources().getDisplayMetrics();
-        mInitialHeight = (int) (mHeightToScreen * metrics.heightPixels);
-        mImageView.getLayoutParams().height = mInitialHeight;
+        mScreenDensity = metrics.density;
+        mInitialHeightPx = (int) (mHeightToScreen * metrics.heightPixels);
+        mImageView.getLayoutParams().height = mInitialHeightPx;
         mImageView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
         mImageView.requestLayout();
+
+        Log.d(TAG, "screen height" + metrics.heightPixels);
 
         mImageView.post(new Runnable() {
             @Override
@@ -156,13 +160,13 @@ public class Nuori {
         if (mImageView.getDrawable() != null) {
             int dw = mImageView.getDrawable().getIntrinsicWidth();
             int dh = mImageView.getDrawable().getIntrinsicHeight();
+            final double ratio = ((double) mImageView.getWidth()) / dw;
+            mMaxZoomHeight = (int) (dh * ratio * mZoomRatio);
+            mZoomMultiplier = (float) mMaxZoomHeight / mInitialHeightPx;
+
 //            Log.d(TAG, "dh = " + dh);
 //            Log.d(TAG, "dw = " + dw);
 //            Log.d(TAG, "width = " + mImageView.getWidth());
-
-            final double ratio = ((double) mImageView.getWidth()) / dw;
-            mMaxZoomHeight = (int) (dh * ratio * mZoomRatio);
-            mZoomMultiplier = (float) mMaxZoomHeight / mInitialHeight;
 //            Log.d(TAG, "ratio = " + ratio);
 //            Log.d(TAG, "mMaxZoomHeight = " + mMaxZoomHeight);
 //            Log.d(TAG, "mInitialHeight = " + mInitialHeight);
@@ -211,14 +215,14 @@ public class Nuori {
         if (mImageView.getHeight() <= mMaxZoomHeight && isTouchEvent && scrollY <= 0) {
             if (deltaY < 0) { // downard swipe
                 int futureY = (int) (mImageView.getHeight() - deltaY * mZoomMultiplier);
-                if (futureY >= mInitialHeight) {
+                if (futureY >= mInitialHeightPx) {
                     mImageView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
                     mImageView.requestLayout();
                 }
             } else { // upward swipe
-                if (mImageView.getHeight() > mInitialHeight) {
+                if (mImageView.getHeight() > mInitialHeightPx) {
                     int futureY = mImageView.getHeight() - deltaY;
-                    mImageView.getLayoutParams().height = futureY > mInitialHeight ? futureY : mInitialHeight;
+                    mImageView.getLayoutParams().height = futureY > mInitialHeightPx ? futureY : mInitialHeightPx;
                     mImageView.requestLayout();
                 }
             }
@@ -234,8 +238,8 @@ public class Nuori {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (mInitialHeight < mImageView.getHeight()) {
-                    bounceBack.start(mInitialHeight, mZoomMultiplier);
+                if (mInitialHeightPx < mImageView.getHeight()) {
+                    bounceBack.start(mInitialHeightPx, mScreenDensity);
                 }
 
                 break;
@@ -249,12 +253,11 @@ public class Nuori {
      * will depend on the actual physical layout of the imageview
      */
     private static class BounceBackAnimation extends Animation implements Animation.AnimationListener {
-        private float initialHeight;
+        private float currHeightPx;
         private float extraHeight;
 
         private float translateY;
-        private float deltaShifted;
-        private float endPointY;
+        private float deltaShiftedY;
 
         private final ImageView view;
         private final NuoriParallaxScrollView host;
@@ -267,40 +270,42 @@ public class Nuori {
 //            setFillAfter(true);
         }
 
-        private void start(int initialHeight, float zoomMultiplier) {
-            float zoomedHeight = view.getHeight();
-            this.initialHeight = initialHeight;
-            this.extraHeight = initialHeight - zoomedHeight;
+        private void start(int initHeightPx, float density) {
+            this.currHeightPx = view.getHeight();
+            this.extraHeight = currHeightPx - initHeightPx;
+
+            /**
+             * In order to bring the user back to PERSPECTIVE.
+             * This is so that the user's point of focus (top of the image view remains in tact).
+             *
+             * Some images will be scaled when intrinsic width < view width.
+             * so the adjIntrinsicHeightPx > intrinsicHeightPx.
+             *
+             * say view width is 1000. but the pic is 400 w x 500 h. It will then stretch to fill
+             * at 1000 w x 1250 h.
+             * intrinsicHeightPx = 500
+             * adjIntrinsicHeightPx = 1250
+             *
+             * For images that have adjIntrinsicHeightPx < initHeightPx, they will actaully
+             * be stretched right from the start to fill the view height. So the
+             * adjIntrinsicHeightPx' = initHeightPx.
+             *
+             * Taking both into account, Math.max(initHeightPx, adjIntrinsicHeightPx)
+             *
+             * Zooming only happens when currHeightPx (or rather pulled height) > adjIntrinsicHeightPx'
+             *
+             */
+            float adjIntrinsicHeightPx = view.getWidth() * view.getDrawable().getIntrinsicHeight() /
+                    view.getDrawable().getIntrinsicWidth();
+            float zoomed = currHeightPx / Math.max(initHeightPx, adjIntrinsicHeightPx);
 
             translateY = 0;
-            deltaShifted = 0;
-
-            float density = 3.0f;
-            float theoreticalheight = view.getWidth() * view.getDrawable().getIntrinsicHeight() /
-                    view.getDrawable().getIntrinsicWidth();
-            float baseH = Math.max(initialHeight, theoreticalheight);
-
-            float zoomed = zoomedHeight / baseH;
-
-            float scrollY = host.getScrollY();
+            deltaShiftedY = 0;
 
             if (zoomed > 1.0) {
-                translateY = (zoomed - 1) / zoomed * (scrollY - view.getTop() * density);
-                deltaShifted = 0;
-
-                translateY = -translateY;
-//                endPointY = scrollY + translateY;
-
-                System.out.println("..... initialHeight = " + initialHeight);
-                System.out.println("..... drawableIH = " + view.getDrawable().getIntrinsicHeight());
-                System.out.println("..... zoomedHeight = " + zoomedHeight);
-                System.out.println("..... view.getTop() = " + view.getTop());
-                System.out.println("..... zoomed = " + zoomed);
-                System.out.println("..... translateY = " + translateY);
-                System.out.println("..... scrollY = " + scrollY);
-//                System.out.println("..... endPointY = " + endPointY);
-
-//                host.scrollBy(0, (int) translateY);
+                // out of the total scrollY, part of it comes from scrolling till view.getTop()
+                // no zoom happens here, so reverse translation is not needed.
+                translateY = host.computePerspectiveOffset(zoomed, view.getTop() * density);
             }
 
             view.startAnimation(this);
@@ -309,13 +314,15 @@ public class Nuori {
         @Override
         protected void applyTransformation(float interpolatedTime, Transformation t) {
 //            System.out.println("applyTransformation " + interpolatedTime);
-            int newHeight = (int) (initialHeight - extraHeight * (1 - interpolatedTime));
+            int newHeight = (int) (currHeightPx - extraHeight * interpolatedTime);
             view.getLayoutParams().height = newHeight;
             view.requestLayout();
 
-            int delta = (int) (translateY * (interpolatedTime) - deltaShifted);
-            deltaShifted += delta;
-            host.scrollBy(0, delta);
+            if (translateY != 0) {
+                int delta = (int) (translateY * (interpolatedTime) - deltaShiftedY);
+                deltaShiftedY += delta;
+                host.scrollBy(0, delta);
+            }
         }
 
         public void cancel() {
@@ -354,6 +361,9 @@ public class Nuori {
              * even when it is supposedly ended. This is a very bad android bug.
              */
             view.clearAnimation();
+
+            view.getLayoutParams().height =(int) (currHeightPx - extraHeight);
+            view.requestLayout();
         }
 
         @Override

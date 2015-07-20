@@ -70,4 +70,8 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
         nuori.onTouchEvent(ev);
         return super.onTouchEvent(ev);
     }
+
+    float computePerspectiveOffset(float zoomed, float nonZoomablePart) {
+        return -1 * (zoomed - 1) / zoomed * (getScrollY() - nonZoomablePart);
+    }
 }
