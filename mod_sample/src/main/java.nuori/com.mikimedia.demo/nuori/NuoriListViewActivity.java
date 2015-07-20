@@ -27,10 +27,12 @@ public class NuoriListViewActivity extends AppCompatActivity {
 
         setContentView(R.layout.nuori_listview_activity);
 
-        View header = LayoutInflater.from(this).inflate(R.layout.nuori_listview_header, null);
+        NuoriParallaxListView listView = (NuoriParallaxListView) findViewById(R.id.list_view);
+
+        View header = LayoutInflater.from(this).inflate(R.layout.nuori_listview_header, listView, false);
+
         final ImageView imageView = (ImageView) header.findViewById(R.id.image);
 
-        NuoriParallaxListView listView = (NuoriParallaxListView) findViewById(R.id.list_view);
         final Nuori nuori = Nuori.from(listView)
                 .setImageView(imageView)
                 .setHeaderView(header)

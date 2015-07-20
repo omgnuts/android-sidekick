@@ -114,18 +114,18 @@ public class Nuori {
         }
 
         if (mHeaderView == null) {
-            if (mHost instanceof NuoriParallaxListView) {
-                throw new NullPointerException("No header view has been set");
-            }
+            throw new NullPointerException("No header view has been set");
         }
 
         if (mZoomRatio < 1.0) {
             throw new IllegalStateException("ZoomRatio must be larger than 1.0");
         }
 
+        mHost.setNuori(this);
+
         prepare(auto);
 
-        return mHost.setNuori(this);
+        return this;
     }
 
     public Point getPreCachedSize() {
@@ -145,15 +145,15 @@ public class Nuori {
 
     private void prepare(boolean auto) {
 
-        bounceBack = new BounceBackAnimation(mHost, mImageView);
+        bounceBack = new BounceBackAnimation(mHost, mHeaderView);
 
         final DisplayMetrics metrics = mHost.getContext().getResources().getDisplayMetrics();
         mScreenDensity = metrics.density;
         mInitialHeightPx = (int) (mHeightToScreen * metrics.heightPixels);
 
-        mImageView.getLayoutParams().height = mInitialHeightPx;
-        mImageView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        mImageView.requestLayout();
+        mHeaderView.getLayoutParams().height = mInitialHeightPx;
+        mHeaderView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+        mHeaderView.requestLayout();
 
         if (auto) notifyViewBoundsChanged();
     }
@@ -167,7 +167,7 @@ public class Nuori {
      */
     public void notifyViewBoundsChanged() {
 
-        mImageView.post(new Runnable() {
+        mHeaderView.post(new Runnable() {
             @Override
             public void run() {
                 if (mImageView.getDrawable() != null) {
@@ -224,18 +224,18 @@ public class Nuori {
 //        Log.d(TAG, "...... maxOverScrollY = " + maxOverScrollY);
 
         // isTouchEvent - not due to fling or other motions. User is actually touching
-        if (mImageView.getHeight() <= mMaxZoomHeight && isTouchEvent && scrollY <= 0) { // scrollY clamped
+        if (mHeaderView.getHeight() <= mMaxZoomHeight && isTouchEvent && scrollY <= 0) { // scrollY clamped
             if (deltaY < 0) { // downard swipe
-                int futureY = (int) (mImageView.getHeight() - deltaY * mZoomMultiplier);
+                int futureY = (int) (mHeaderView.getHeight() - deltaY * mZoomMultiplier);
                 if (futureY >= mInitialHeightPx) {
-                    mImageView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
-                    mImageView.requestLayout();
+                    mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
+                    mHeaderView.requestLayout();
                 }
             } else { // upward swipe
-                if (mImageView.getHeight() > mInitialHeightPx) {
-                    int futureY = mImageView.getHeight() - deltaY;
-                    mImageView.getLayoutParams().height = futureY > mInitialHeightPx ? futureY : mInitialHeightPx;
-                    mImageView.requestLayout();
+                if (mHeaderView.getHeight() > mInitialHeightPx) {
+                    int futureY = mHeaderView.getHeight() - deltaY;
+                    mHeaderView.getLayoutParams().height = futureY > mInitialHeightPx ? futureY : mInitialHeightPx;
+                    mHeaderView.requestLayout();
                 }
             }
         }
@@ -250,8 +250,10 @@ public class Nuori {
                 break;
 
             case MotionEvent.ACTION_UP:
-                if (mInitialHeightPx < mImageView.getHeight()) {
-                    bounceBack.start(mInitialHeightPx, mScreenDensity);
+                if (mInitialHeightPx < mHeaderView.getHeight()) {
+                    bounceBack.start(mInitialHeightPx, mScreenDensity,
+                            mImageView.getDrawable().getIntrinsicWidth(),
+                            mImageView.getDrawable().getIntrinsicHeight());
                 }
 
                 break;
@@ -272,10 +274,10 @@ public class Nuori {
         private float translateY;
         private float deltaShiftedY;
 
-        private final ImageView view;
+        private final View view;
         private final NuoriParallaxView host;
 
-        private BounceBackAnimation(NuoriParallaxView host, ImageView view) {
+        private BounceBackAnimation(NuoriParallaxView host, View view) {
             this.host = host;
             this.view = view;
             setDuration(200);
@@ -284,7 +286,7 @@ public class Nuori {
             setInterpolator(new AccelerateDecelerateInterpolator());
         }
 
-        private void start(int initHeightPx, float density) {
+        private void start(int initHeightPx, float density, int intrinsicWidth, int intrinsicHeight) {
             this.currHeightPx = view.getHeight();
             this.extraHeight = currHeightPx - initHeightPx;
 
@@ -309,8 +311,7 @@ public class Nuori {
              * Zooming only happens when currHeightPx (or rather pulled height) > adjIntrinsicHeightPx'
              *
              */
-            float adjIntrinsicHeightPx = view.getWidth() * view.getDrawable().getIntrinsicHeight() /
-                    view.getDrawable().getIntrinsicWidth();
+            float adjIntrinsicHeightPx = view.getWidth() * intrinsicWidth / intrinsicHeight;
             float zoomed = currHeightPx / Math.max(initHeightPx, adjIntrinsicHeightPx);
 
             translateY = 0;

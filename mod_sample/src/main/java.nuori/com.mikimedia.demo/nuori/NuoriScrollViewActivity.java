@@ -1,12 +1,11 @@
 package com.mikimedia.demo.nuori;
 
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.mikimedia.android.component.PicassoTopCropTransform;
@@ -26,11 +25,13 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
 
         setContentView(R.layout.nuori_scrollview_activity);
 
+        final View headerView = findViewById(R.id.header_view);
         final ImageView imageView = (ImageView) findViewById(R.id.image);
 
         NuoriParallaxScrollView scrollView = (NuoriParallaxScrollView) findViewById(R.id.scroll_view);
         final Nuori nuori = Nuori.from(scrollView)
                 .setImageView(imageView)
+                .setHeaderView(headerView)
                 .into(false);
 
         final Target target = new Target() {

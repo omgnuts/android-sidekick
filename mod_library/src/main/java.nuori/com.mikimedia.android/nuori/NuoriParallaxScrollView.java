@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
@@ -16,12 +15,11 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
         return this.nuori;
     }
 
-    public Nuori setNuori(Nuori nuori) {
+    public void setNuori(Nuori nuori) {
         if (!nuori.equals(this.nuori)) {
             throw new IllegalStateException("Don't just change the nuori!");
         }
 //        addHeaderView(nuori.getHeaderView());
-        return nuori;
     }
 
     public NuoriParallaxScrollView(Context context) {
