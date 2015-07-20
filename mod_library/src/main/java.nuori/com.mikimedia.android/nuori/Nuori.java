@@ -256,10 +256,10 @@ public class Nuori {
         private float deltaShifted;
         private float endPointY;
 
-        private final View view;
+        private final ImageView view;
         private final NuoriParallaxScrollView host;
 
-        private BounceBackAnimation(NuoriParallaxView host, View view) {
+        private BounceBackAnimation(NuoriParallaxView host, ImageView view) {
             this.host = (NuoriParallaxScrollView)host;
             this.view = view;
             setDuration(200);
@@ -272,25 +272,36 @@ public class Nuori {
             this.initialHeight = initialHeight;
             this.extraHeight = initialHeight - zoomedHeight;
 
-
-            float zoomed = (zoomedHeight / initialHeight);
-
-            float density = 3.0f;
-            float scrollY = host.getScrollY();
-
-            translateY = (zoomed - 1) / zoomed * (scrollY - view.getTop() * density);
+            translateY = 0;
             deltaShifted = 0;
 
-            translateY = -translateY;
-            endPointY = scrollY + translateY;
+            float density = 3.0f;
+            float theoreticalheight = view.getWidth() * view.getDrawable().getIntrinsicHeight() /
+                    view.getDrawable().getIntrinsicWidth();
+            float baseH = Math.max(initialHeight, theoreticalheight);
 
-            System.out.println("..... initialHeight = " + initialHeight);
-            System.out.println("..... zoomedHeight = " + zoomedHeight);
-            System.out.println("..... view.getTop() = " + view.getTop());
-            System.out.println("..... zoomed = " + zoomed);
-            System.out.println("..... translateY = " + translateY);
-            System.out.println("..... scrollY = " + scrollY);
-            System.out.println("..... endPointY = " + endPointY);
+            float zoomed = zoomedHeight / baseH;
+
+            float scrollY = host.getScrollY();
+
+            if (zoomed > 1.0) {
+                translateY = (zoomed - 1) / zoomed * (scrollY - view.getTop() * density);
+                deltaShifted = 0;
+
+                translateY = -translateY;
+//                endPointY = scrollY + translateY;
+
+                System.out.println("..... initialHeight = " + initialHeight);
+                System.out.println("..... drawableIH = " + view.getDrawable().getIntrinsicHeight());
+                System.out.println("..... zoomedHeight = " + zoomedHeight);
+                System.out.println("..... view.getTop() = " + view.getTop());
+                System.out.println("..... zoomed = " + zoomed);
+                System.out.println("..... translateY = " + translateY);
+                System.out.println("..... scrollY = " + scrollY);
+//                System.out.println("..... endPointY = " + endPointY);
+
+//                host.scrollBy(0, (int) translateY);
+            }
 
             view.startAnimation(this);
         }
@@ -343,8 +354,6 @@ public class Nuori {
              * even when it is supposedly ended. This is a very bad android bug.
              */
             view.clearAnimation();
-
-//            host.scrollBy(0, (int) -translateY);
         }
 
         @Override

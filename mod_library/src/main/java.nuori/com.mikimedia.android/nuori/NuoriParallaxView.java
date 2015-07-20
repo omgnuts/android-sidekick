@@ -9,9 +9,7 @@ interface NuoriParallaxView {
     Nuori getNuori();
     Nuori setNuori(Nuori nuori);
 
-//    int getPaddingTop();
-//    int getTop();
-//    int getScrollYOffset();
+//    float computePerspectiveOffset();
 
     boolean post(Runnable runnable);
 
