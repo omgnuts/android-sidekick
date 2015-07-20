@@ -118,13 +118,15 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
             Log.d("NN", "scale = " + scale);
             Log.d("NN", "dx = " + dx);
 
-            matrix.preTranslate(dx, 0);
-//            matrix.setScale(scale, scale);
+            matrix.setScale(scale, scale);
 
-            Bitmap bitmap = Bitmap.createBitmap(source, 0, 0, (int)nw, (int)nh, matrix, true);
+            Bitmap bitmap = Bitmap.createBitmap(source, (int)dx, 0, (int)nw, (int)nh, matrix, false);
             if (!bitmap.equals(source)) {
                 source.recycle();
             }
+
+            Log.d("NN", "xw = " + bitmap.getWidth());
+            Log.d("NN", "xh = " + bitmap.getHeight());
 
             return bitmap;
 
