@@ -47,12 +47,10 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
     protected boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-
-        nuori.onParallax(getScrollY());
-
         // performs the overscroll
-        nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
-                maxOverScrollX, maxOverScrollY, isTouchEvent);
+        // Check (scrollY <= 0) is required to determine if the scrollview has reached top
+        nuori.pullToZoom(deltaY, scrollY <= 0);
+        nuori.onParallax(getScrollY());
 
         return super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
                 scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);

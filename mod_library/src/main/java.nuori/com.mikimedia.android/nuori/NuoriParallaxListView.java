@@ -48,16 +48,15 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
         // performs the overscroll
-        nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
-                maxOverScrollX, maxOverScrollY, isTouchEvent);
+        // Pull to zoom is always ready for listview if Overscroll is called.
+        nuori.pullToZoom(deltaY, true);
         return super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
                 scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
-
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        nuori.onParallax();
+        nuori.onParallaxList();
         super.onScrollChanged(l, t, oldl, oldt);
     }
 

@@ -42,16 +42,14 @@ public class NuoriParallaxRecyclerView extends RecyclerView implements NuoriPara
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
         // performs the overscroll
-        nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
-                maxOverScrollX, maxOverScrollY, isTouchEvent);
+        nuori.pullToZoom(deltaY, true);
         return super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
                 scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
-
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        nuori.onParallax();
+        nuori.onParallaxList();
         super.onScrollChanged(l, t, oldl, oldt);
     }
 

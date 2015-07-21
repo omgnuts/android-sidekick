@@ -205,26 +205,7 @@ public class Nuori {
         });
     }
 
-//    void onScrollChanged(int l, int t, int oldl, int oldt) {
-//        if (!mActivated) return;
-////        Log.d("NN", "onScrollChanged");
-//        if(!mActivated || !mIsParallaxEnabled) return;
-//
-//        float f = mInitialHeightPx - mHeaderView.getBottom();
-////        Log.d(TAG, "onScroll --> f = " + f);
-//        if ((f > 0.0F) && (f < mInitialHeightPx)) {
-//            int i = (int) (0.65D * f);
-//            mHeaderView.scrollTo(0, -i);
-//        } else if (mHeaderView.getScrollY() != 0) {
-//            mHeaderView.scrollTo(0, 0);
-//        }
-//
-////        int futureY = (int) (mHeaderView.getHeight() + deltaY);
-////        mHeaderView.getLayoutParams().height = futureY;
-////        mHeaderView.requestLayout();
-//    }
-
-    void onParallax() {
+    void onParallaxList() {
         onParallax(mInitialHeightPx - mHeaderView.getBottom());
     }
 
@@ -251,21 +232,9 @@ public class Nuori {
     /**
      * All the values here are primitive. No worries about affecting the values in the calling function
      */
-    void overScrollBy(int deltaX, int deltaY, int scrollX,
-                         int scrollY, int scrollRangeX, int scrollRangeY,
-                         int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+    void pullToZoom(int deltaY, boolean isPullReady) {
 
         if (!mActivated || !mIsPullZoomEnabled) return;
-
-        /**
-         * For Listview,
-         * the momennt it is in overscroll, it is ready for pull. No further checks needed
-         *
-         * For Scrollview,
-         * An additional check is required to determine if the scrollview has reached top
-         *
-         */
-        boolean isPullReady = scrollY <= 0; // this check is really just for scrollview.
 
         /**
          * You cant really do much in overscroll mode for compatibility between List/ScrollView.
@@ -330,8 +299,8 @@ public class Nuori {
         private float currHeightPx;
         private float extraHeight;
 
-        private float translateY;
-        private float deltaShiftedY;
+        private float translateY = 0;
+        private float deltaShiftedY = 0;
 
         private final View view;
         private final NuoriParallaxView host;
@@ -348,6 +317,13 @@ public class Nuori {
             this.currHeightPx = view.getHeight();
             this.extraHeight = currHeightPx - initHeightPx;
 
+            // translateY = applyPerspective(initHeightPx, density, intrinsicWidth, intrinsicHeight);
+
+            view.startAnimation(this);
+
+        }
+
+        private float applyPerspective(int initHeightPx, float density, int intrinsicWidth, int intrinsicHeight) {
             /**
              * In order to bring the user back to PERSPECTIVE.
              * This is so that the user's point of focus (top of the image view remains in tact).
@@ -377,9 +353,7 @@ public class Nuori {
 
             // out of the total scrollY, part of it comes from scrolling till view.getTop()
             // no zoom happens here, so reverse translation is not needed.
-            //translateY = host.computePerspectiveOffset(initHeightPx, zoomed, view.getTop() * density);
-
-            view.startAnimation(this);
+            return host.computePerspectiveOffset(initHeightPx, zoomed, view.getTop() * density);
 
 //            Log.d(TAG, "......................................................");
 //            Log.d(TAG, "widthZoom = " + view.getwidth() / view.getdrawable().getintrinsicwidth());
@@ -389,7 +363,6 @@ public class Nuori {
 //            log.d(tag, "zoomed = " + zoomed);
 //            log.d(tag, "translateY = " + translateY);
 //            Log.d(TAG, "host.getScrollY() = " + host.getScrollY());
-
         }
 
         @Override
