@@ -51,6 +51,8 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
         // performs the overscroll
         boolean consume = nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
                 maxOverScrollX, maxOverScrollY, isTouchEvent);
+
+        nuori.onParallax();
         return consume || super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
                 scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
     }
@@ -58,7 +60,7 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        nuori.onScrollChanged(l, t, oldl, oldt);
+//        nuori.onScrollChanged(l, t, oldl, oldt);
     }
 
     @Override

@@ -207,12 +207,28 @@ public class Nuori {
 
     void onScrollChanged(int l, int t, int oldl, int oldt) {
         if (!mActivated) return;
-        Log.d("NN", "onScrollChanged");
+//        Log.d("NN", "onScrollChanged");
         if(!mActivated || !mIsParallaxEnabled) return;
 
         float f = mInitialHeightPx - mHeaderView.getBottom();
-        Log.d(TAG, "onScroll --> f = " + f);
+//        Log.d(TAG, "onScroll --> f = " + f);
         if ((f > 0.0F) && (f < mInitialHeightPx)) {
+            int i = (int) (0.65D * f);
+            mHeaderView.scrollTo(0, -i);
+        } else if (mHeaderView.getScrollY() != 0) {
+            mHeaderView.scrollTo(0, 0);
+        }
+    }
+
+    void onParallax() {
+        if (!mActivated) return;
+        Log.d("NN", "onParallax");
+        if(!mActivated || !mIsParallaxEnabled) return;
+
+        NuoriParallaxScrollView hosty = (NuoriParallaxScrollView)mHost;
+        float f = hosty.getScrollY();
+        if ((f > 0.0F) && (f < mInitialHeightPx)) {
+            Log.d(TAG, "onScroll --> f = " + f);
             int i = (int) (0.65D * f);
             mHeaderView.scrollTo(0, -i);
         } else if (mHeaderView.getScrollY() != 0) {
@@ -386,7 +402,7 @@ public class Nuori {
 
             // out of the total scrollY, part of it comes from scrolling till view.getTop()
             // no zoom happens here, so reverse translation is not needed.
-            translateY = host.computePerspectiveOffset(initHeightPx, zoomed, view.getTop() * density);
+            //translateY = host.computePerspectiveOffset(initHeightPx, zoomed, view.getTop() * density);
 
             view.startAnimation(this);
 
