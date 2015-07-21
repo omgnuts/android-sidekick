@@ -242,12 +242,9 @@ public class Nuori {
                 // Performs the pullToZoom.
                 int futureY = (int) (mHeaderView.getHeight() - deltaY * mZoomMultiplier);
                 if (futureY >= mInitialHeightPx) {
-                    RecyclerView.LayoutParams rlp = (RecyclerView.LayoutParams)mHeaderView.getLayoutParams();
-                    rlp.height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
-                    rlp.
-//                    mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
-//                    mHeaderView.requestLayout();
-//                    return true;
+                    mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
+                    mHeaderView.requestLayout();
+                    return true;
                 }
             }
         }

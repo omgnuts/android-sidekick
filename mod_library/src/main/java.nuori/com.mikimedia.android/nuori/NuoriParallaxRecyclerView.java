@@ -97,7 +97,7 @@ public class NuoriParallaxRecyclerView extends RecyclerView implements NuoriPara
             if (overscroll < 0) {
                 // top overscroll
                 if (nuori.pullToZoom(overscroll, true)) {
-//                    post(updateLayout);
+                    post(updateLayout);
                 };
             } else if (overscroll > 0) {
                 // bottom overscroll
