@@ -218,6 +218,11 @@ public class Nuori {
         } else if (mHeaderView.getScrollY() != 0) {
             mHeaderView.scrollTo(0, 0);
         }
+
+
+//        int futureY = (int) (mHeaderView.getHeight() + deltaY);
+//        mHeaderView.getLayoutParams().height = futureY;
+//        mHeaderView.requestLayout();
     }
 
     void onParallax() {
@@ -234,10 +239,11 @@ public class Nuori {
         } else if (mHeaderView.getScrollY() != 0) {
             mHeaderView.scrollTo(0, 0);
         }
-    }
 
-    void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+//        int futureY = (int) (mHeaderView.getHeight() + deltaY);
+//        mHeaderView.getLayoutParams().height = futureY;
+//        mHeaderView.requestLayout();
     }
 
     /**
@@ -293,9 +299,6 @@ public class Nuori {
         return false;
     }
 
-    private float ptY = -1;
-    private boolean isBeingDragged = false;
-
     boolean onTouchEvent(MotionEvent ev) {
         if (!mActivated) return false;
 
@@ -303,8 +306,6 @@ public class Nuori {
             case MotionEvent.ACTION_DOWN:
                 bounceBack.cancel();
 
-                ptY = ev.getY();
-                isBeingDragged = false;
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -314,31 +315,7 @@ public class Nuori {
                             mImageView.getDrawable().getIntrinsicHeight());
                 }
 
-                if (isBeingDragged) {
-                    isBeingDragged = false;
-
-                    return true; // consume this.
-                }
-
                 break;
-
-            case MotionEvent.ACTION_MOVE:
-//                float deltaY = ev.getY() - ptY;
-//                boolean isUp = deltaY < 0;
-//                ptY = ev.getY();
-//
-//                int bottom = mHeaderView.getBottom();
-////                Log.d("NN", "bottom = " + bottom);
-//                if (0 <= bottom && bottom < mInitialHeightPx) {
-//                    blockUp = blockUp || isUp;
-////                    Log.d("NN", "stretched & scroll up");
-//                    int futureY = (int) (mHeaderView.getHeight() + deltaY);
-//                    mHeaderView.getLayoutParams().height = futureY;
-//                    mHeaderView.requestLayout();
-//                }
-//
-//                return blockUp;
-
         }
 
         return false;

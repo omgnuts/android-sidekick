@@ -33,6 +33,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".nuori.NuoriRecyclerViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".nuori.NuoriScrollViewActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>

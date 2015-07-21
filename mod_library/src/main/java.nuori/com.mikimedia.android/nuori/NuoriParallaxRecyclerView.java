@@ -5,9 +5,10 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ListView;
+import android.widget.AbsListView;
+import android.support.v7.widget.RecyclerView;
 
-public class NuoriParallaxListView extends ListView implements NuoriParallaxView {
+public class NuoriParallaxRecyclerView extends RecyclerView implements NuoriParallaxView {
 
     private final Nuori nuori;;
 
@@ -19,29 +20,30 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
         if (!nuori.equals(this.nuori)) {
             throw new IllegalStateException("Don't just change the nuori!");
         }
-        addHeaderView(nuori.getHeaderView());
+
+        // addHeaderView(nuori.getHeaderView());
     }
 
-    public NuoriParallaxListView(Context context) {
+    public NuoriParallaxRecyclerView(Context context) {
         super(context);
         nuori = new Nuori(this, context, null, 0, 0);
     }
 
-    public NuoriParallaxListView(Context context, AttributeSet attrs) {
+    public NuoriParallaxRecyclerView(Context context, AttributeSet attrs) {
         super(context, attrs);
         nuori = new Nuori(this, context, attrs, 0, 0);
     }
 
-    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public NuoriParallaxRecyclerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         nuori = new Nuori(this, context, attrs, defStyleAttr, 0);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public NuoriParallaxListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        nuori = new Nuori(this, context, attrs, defStyleAttr, defStyleRes);
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    public NuoriParallaxRecyclerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//        super(context, attrs, defStyleAttr, defStyleRes);
+//        nuori = new Nuori(this, context, attrs, defStyleAttr, defStyleRes);
+//    }
 
     @Override
     protected boolean overScrollBy(int deltaX, int deltaY, int scrollX,

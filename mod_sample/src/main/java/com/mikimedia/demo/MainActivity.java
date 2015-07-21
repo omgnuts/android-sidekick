@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import com.mikimedia.demo.fragments.SwitcherActivity;
 import com.mikimedia.demo.imageslider.ImageSliderActivity;
 import com.mikimedia.demo.nuori.NuoriListViewActivity;
+import com.mikimedia.demo.nuori.NuoriRecyclerViewActivity;
 import com.mikimedia.demo.nuori.NuoriScrollViewActivity;
 import com.mikimedia.demo.nuori.Pull2ZoomActivity;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         buttons.put(3, "XCropImageView");
         buttons.put(4, "Nuori Listview");
         buttons.put(5, "Nuori Scrollview");
+        buttons.put(6, "Nuori RecyclerView");
         buttons.put(100, "Pull2Zoom");
     }
 
@@ -92,10 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 case 5: // NuoriScrollViewActivity
                     intent = new Intent(MainActivity.this, NuoriScrollViewActivity.class);
                     break;
+                case 6: // NuoriRecyclerViewActivity
+                    intent = new Intent(MainActivity.this, NuoriRecyclerViewActivity.class);
+                    break;
                 case 100: // Pull2ZoomActivity
                     intent = new Intent(MainActivity.this, Pull2ZoomActivity.class);
                     break;
             }
+
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 

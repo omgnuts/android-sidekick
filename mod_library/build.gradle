@@ -60,7 +60,9 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile ANDROID_COMPAT_SUPPORT
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+
 
     // Extract contact numbers / email / url / maplink
     compile 'com.googlecode.libphonenumber:libphonenumber:7.0.6'
