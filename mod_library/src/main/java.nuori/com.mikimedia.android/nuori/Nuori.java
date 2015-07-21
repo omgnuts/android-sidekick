@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 
 import com.mikimedia.android.R;
@@ -66,6 +67,11 @@ public class Nuori {
 
     private float mZoomMultiplier = -1;
     private float mScreenDensity = -1;
+
+    private boolean isParallax = true;
+    private boolean isParallax() {
+        return isParallax;
+    }
 
     /**
      * Nuori is instantiated from within the mParent
@@ -259,7 +265,7 @@ public class Nuori {
     }
 
     private float ptY = -1;
-    private boolean blockUp = false;
+    private boolean isBeingDragged = false;
 
     boolean onTouchEvent(MotionEvent ev) {
         if (!mActivated) return false;
@@ -269,7 +275,7 @@ public class Nuori {
                 bounceBack.cancel();
 
                 ptY = ev.getY();
-                blockUp = false;
+                isBeingDragged = false;
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -279,7 +285,9 @@ public class Nuori {
                             mImageView.getDrawable().getIntrinsicHeight());
                 }
 
-                if (blockUp) {
+                if (isBeingDragged) {
+                    isBeingDragged = false;
+
                     return true; // consume this.
                 }
 
@@ -305,6 +313,21 @@ public class Nuori {
         }
 
         return false;
+    }
+
+    void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//        if (mZoomView != null && !isHideHeader() && isPullToZoomEnabled()) {
+        float f = mInitialHeightPx - mHeaderView.getBottom();
+        Log.d(TAG, "onScroll --> f = " + f);
+        if (isParallax()) {
+            if ((f > 0.0F) && (f < mInitialHeightPx)) {
+                int i = (int) (0.65D * f);
+                mHeaderView.scrollTo(0, -i);
+            } else if (mHeaderView.getScrollY() != 0) {
+                mHeaderView.scrollTo(0, 0);
+            }
+        }
+//        }
     }
 
     private BounceBackAnimation bounceBack = null;

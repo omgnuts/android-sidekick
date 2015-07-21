@@ -5,9 +5,10 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.AbsListView;
 import android.widget.ListView;
 
-public class NuoriParallaxListView extends ListView implements NuoriParallaxView {
+public class NuoriParallaxListView extends ListView implements NuoriParallaxView, AbsListView.OnScrollListener {
 
     private final Nuori nuori;;
 
@@ -20,6 +21,7 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
             throw new IllegalStateException("Don't just change the nuori!");
         }
         addHeaderView(nuori.getHeaderView());
+        setOnScrollListener(this);
     }
 
     public NuoriParallaxListView(Context context) {
@@ -65,6 +67,16 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
     public boolean onTouchEvent(MotionEvent ev) {
         boolean consume = nuori.onTouchEvent(ev);
         return consume || super.onTouchEvent(ev);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        nuori.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
     }
 
     public float computePerspectiveOffset(int initHeightPx, float zoomed,float nonZoomablePart) {
