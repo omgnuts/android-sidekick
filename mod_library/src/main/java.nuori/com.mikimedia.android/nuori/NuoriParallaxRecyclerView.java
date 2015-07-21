@@ -96,19 +96,20 @@ public class NuoriParallaxRecyclerView extends RecyclerView implements NuoriPara
             int overscroll = (dy - scrollRange);
             if (overscroll < 0) {
                 // top overscroll
-//                Log.d("NN", "Recycler view top overscroll " + overscroll);
-                nuori.pullToZoom(overscroll, true);
-                post(new Runnable() {
-                    @Override
-                    public void run() {
-                        NuoriParallaxRecyclerView.this.getAdapter().notifyItemChanged(0);
-                    }
-                });
+                if (nuori.pullToZoom(overscroll, true)) {
+//                    post(updateLayout);
+                };
             } else if (overscroll > 0) {
                 // bottom overscroll
-//                Log.d("NN", "Recycler view bottom overscroll " + overscroll);
             }
             return scrollRange;
         }
+
+        private final Runnable updateLayout = new Runnable() {
+            @Override
+            public void run() {
+                NuoriParallaxRecyclerView.this.getAdapter().notifyItemChanged(0);
+            }
+        };
     }
 }

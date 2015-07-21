@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Parcelable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -209,15 +210,11 @@ public class Nuori {
         onParallax(mInitialHeightPx - mHeaderView.getBottom());
     }
 
-    void onParallax(int baseLine) {
-        if (!mActivated) return;
-//        Log.d("NN", "onParallax");
+    void onParallax(float baseLine) {
         if(!mActivated || !mIsParallaxEnabled) return;
 
-        float f = baseLine;
-        if ((f > 0.0F) && (f < mInitialHeightPx)) {
-//            Log.d(TAG, "onScroll --> f = " + f);
-            int i = (int) (0.65D * f);
+        if ((baseLine > 0.0F) && (baseLine < mInitialHeightPx)) {
+            int i = (int) (0.65D * baseLine);
             mHeaderView.scrollTo(0, -i);
         } else if (mHeaderView.getScrollY() != 0) {
             mHeaderView.scrollTo(0, 0);
@@ -231,30 +228,26 @@ public class Nuori {
     /**
      * All the values here are primitive. No worries about affecting the values in the calling function
      */
-    void pullToZoom(int deltaY, boolean isPullReady) {
-
-        if (!mActivated || !mIsPullZoomEnabled) return;
+    boolean pullToZoom(int deltaY, boolean isPullReady) {
+        if (!mActivated || !mIsPullZoomEnabled) return false;
         /**
          * You cant really do much in overscroll mode for compatibility between List/ScrollView.
-         *
          * Scrollview calls overscroll all the time, whils listview only calls it during overscroll.
          * Hence you need to handle the upward movement in OnTouchEvent.
-         *
          */
-        Log.d("NN", "pullToZoom " + deltaY);
 
         // isTouchEvent - not due to fling or other motions. User is actually touching
         if (mHeaderView.getHeight() <= mMaxZoomHeight && isPullReady) { // scrollY clamped
             if (deltaY < 0) { // downard swipe
-                /**
-                 * Performs the pullToZoom.
-                 */
+                // Performs the pullToZoom.
                 int futureY = (int) (mHeaderView.getHeight() - deltaY * mZoomMultiplier);
-                Log.d("NN", "futureY " + futureY);
                 if (futureY >= mInitialHeightPx) {
-                    Log.d("NN", "mInitialHeightPx " + mInitialHeightPx);
-                    mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
-                    mHeaderView.requestLayout();
+                    RecyclerView.LayoutParams rlp = (RecyclerView.LayoutParams)mHeaderView.getLayoutParams();
+                    rlp.height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
+                    rlp.
+//                    mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
+//                    mHeaderView.requestLayout();
+//                    return true;
                 }
             }
         }
@@ -267,6 +260,7 @@ public class Nuori {
 //        Log.d(TAG, "...... scrollY = " + scrollY);
 //        Log.d(TAG, "...... maxOverScrollX = " + maxOverScrollX);
 //        Log.d(TAG, "...... maxOverScrollY = " + maxOverScrollY);
+        return false;
     }
 
     void onBounceBack(int action) {
