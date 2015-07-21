@@ -68,10 +68,8 @@ public class Nuori {
     private float mZoomMultiplier = -1;
     private float mScreenDensity = -1;
 
-    private boolean isParallax = true;
-    private boolean isParallax() {
-        return isParallax;
-    }
+    private boolean mIsParallaxEnabled = true;
+    private boolean mIsPullZoomEnabled = true;
 
     /**
      * Nuori is instantiated from within the mParent
@@ -209,6 +207,20 @@ public class Nuori {
 
     void onScrollChanged(int l, int t, int oldl, int oldt) {
         if (!mActivated) return;
+        Log.d("NN", "onScrollChanged");
+        if(!mActivated || !mIsParallaxEnabled) return;
+
+        float f = mInitialHeightPx - mHeaderView.getBottom();
+        Log.d(TAG, "onScroll --> f = " + f);
+        if ((f > 0.0F) && (f < mInitialHeightPx)) {
+            int i = (int) (0.65D * f);
+            mHeaderView.scrollTo(0, -i);
+        } else if (mHeaderView.getScrollY() != 0) {
+            mHeaderView.scrollTo(0, 0);
+        }
+    }
+
+    void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
     }
 
@@ -218,7 +230,8 @@ public class Nuori {
     boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                          int scrollY, int scrollRangeX, int scrollRangeY,
                          int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-        if (!mActivated) return false;
+
+        if (!mActivated || !mIsPullZoomEnabled) return false;
 
         /**
          * For Listview,
@@ -315,21 +328,6 @@ public class Nuori {
         return false;
     }
 
-    void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//        if (mZoomView != null && !isHideHeader() && isPullToZoomEnabled()) {
-        float f = mInitialHeightPx - mHeaderView.getBottom();
-        Log.d(TAG, "onScroll --> f = " + f);
-        if (isParallax()) {
-            if ((f > 0.0F) && (f < mInitialHeightPx)) {
-                int i = (int) (0.65D * f);
-                mHeaderView.scrollTo(0, -i);
-            } else if (mHeaderView.getScrollY() != 0) {
-                mHeaderView.scrollTo(0, 0);
-            }
-        }
-//        }
-    }
-
     private BounceBackAnimation bounceBack = null;
 
     /**
@@ -352,7 +350,6 @@ public class Nuori {
             this.view = view;
             setDuration(200);
             setAnimationListener(this);
-//            setFillAfter(true);
             setInterpolator(new AccelerateDecelerateInterpolator());
         }
 
