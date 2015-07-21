@@ -28,7 +28,7 @@ public class PullToZoomListView extends ListView implements
 	private FrameLayout mHeaderContainer;
 	private int mHeaderHeight;
 	private ImageView mHeaderImage;
-	float mLastMotionY = -1.0F;
+	float orevY = -1.0F;
 	float mLastScale = -1.0F;
 	float mMaxScale = -1.0F;
 	private OnScrollListener mOnScrollListener;
@@ -85,7 +85,7 @@ public class PullToZoomListView extends ListView implements
 		if (paramMotionEvent.getPointerId(i) == this.mActivePointerId)
 			if (i != 0) {
 				int j = 1;
-				this.mLastMotionY = paramMotionEvent.getY(0);
+				this.orevY = paramMotionEvent.getY(0);
 				this.mActivePointerId = paramMotionEvent.getPointerId(0);
 				return;
 			}
@@ -93,7 +93,7 @@ public class PullToZoomListView extends ListView implements
 
 	private void reset() {
 		this.mActivePointerId = -1;
-		this.mLastMotionY = -1.0F;
+		this.orevY = -1.0F;
 		this.mMaxScale = -1.0F;
 		this.mLastScale = -1.0F;
 	}
@@ -116,21 +116,21 @@ public class PullToZoomListView extends ListView implements
 	@Override
 	public void onScroll(AbsListView paramAbsListView, int paramInt1,
 			int paramInt2, int paramInt3) {
-		Log.d("mmm", "onScroll");
-		float f = this.mHeaderHeight - this.mHeaderContainer.getBottom();
-		Log.d("mmm", "f|" + f);
-		if ((f > 0.0F) && (f < this.mHeaderHeight)) {
-			Log.d("mmm", "1");
-			int i = (int) (0.65D * f);
-			this.mHeaderImage.scrollTo(0, -i);
-		} else if (this.mHeaderImage.getScrollY() != 0) {
-			Log.d("mmm", "2");
-			this.mHeaderImage.scrollTo(0, 0);
-		}
-		if (this.mOnScrollListener != null) {
-			this.mOnScrollListener.onScroll(paramAbsListView, paramInt1,
-					paramInt2, paramInt3);
-		}
+//		Log.d("mmm", "onScroll");
+//		float f = this.mHeaderHeight - this.mHeaderContainer.getBottom();
+//		Log.d("mmm", "f|" + f);
+//		if ((f > 0.0F) && (f < this.mHeaderHeight)) {
+//			Log.d("mmm", "1");
+//			int i = (int) (0.65D * f);
+//			this.mHeaderImage.scrollTo(0, -i);
+//		} else if (this.mHeaderImage.getScrollY() != 0) {
+//			Log.d("mmm", "2");
+//			this.mHeaderImage.scrollTo(0, 0);
+//		}
+//		if (this.mOnScrollListener != null) {
+//			this.mOnScrollListener.onScroll(paramAbsListView, paramInt1,
+//					paramInt2, paramInt3);
+//		}
 	}
 
 	public void onScrollStateChanged(AbsListView paramAbsListView, int paramInt) {
@@ -147,7 +147,7 @@ public class PullToZoomListView extends ListView implements
 			if (!this.mScalingRunnalable.mIsFinished) {
 				this.mScalingRunnalable.abortAnimation();
 			}
-			this.mLastMotionY = paramMotionEvent.getY();
+			this.orevY = paramMotionEvent.getY();
 			this.mActivePointerId = paramMotionEvent.getPointerId(0);
 			this.mMaxScale = (this.mScreenHeight / this.mHeaderHeight);
 			this.mLastScale = (this.mHeaderContainer.getBottom() / this.mHeaderHeight);
@@ -159,12 +159,12 @@ public class PullToZoomListView extends ListView implements
 				Log.e("PullToZoomListView", "Invalid pointerId="
 						+ this.mActivePointerId + " in onTouchEvent");
 			} else {
-				if (this.mLastMotionY == -1.0F)
-					this.mLastMotionY = paramMotionEvent.getY(j);
+				if (this.orevY == -1.0F)
+					this.orevY = paramMotionEvent.getY(j);
 				if (this.mHeaderContainer.getBottom() >= this.mHeaderHeight) {
 					ViewGroup.LayoutParams localLayoutParams = this.mHeaderContainer
 							.getLayoutParams();
-					float f = ((paramMotionEvent.getY(j) - this.mLastMotionY + this.mHeaderContainer
+					float f = ((paramMotionEvent.getY(j) - this.orevY + this.mHeaderContainer
 							.getBottom()) / this.mHeaderHeight - this.mLastScale)
 							/ 2.0F + this.mLastScale;
 					if ((this.mLastScale <= 1.0D) && (f < this.mLastScale)) {
@@ -179,10 +179,10 @@ public class PullToZoomListView extends ListView implements
 					if (localLayoutParams.height < this.mScreenHeight)
 						this.mHeaderContainer
 								.setLayoutParams(localLayoutParams);
-					this.mLastMotionY = paramMotionEvent.getY(j);
+					this.orevY = paramMotionEvent.getY(j);
 					return true;
 				}
-				this.mLastMotionY = paramMotionEvent.getY(j);
+				this.orevY = paramMotionEvent.getY(j);
 			}
 			break;
 		case 1: //ACTION_UP
@@ -191,12 +191,12 @@ public class PullToZoomListView extends ListView implements
 			break;
 		case 3: //ACTION_CANCEL
 			int i = paramMotionEvent.getActionIndex();
-			this.mLastMotionY = paramMotionEvent.getY(i);
+			this.orevY = paramMotionEvent.getY(i);
 			this.mActivePointerId = paramMotionEvent.getPointerId(i);
 			break;
 		case 5: //ACTION_POINTER_DOWN
 			onSecondaryPointerUp(paramMotionEvent);
-			this.mLastMotionY = paramMotionEvent.getY(paramMotionEvent
+			this.orevY = paramMotionEvent.getY(paramMotionEvent
 					.findPointerIndex(this.mActivePointerId));
 			break;
 		case 6: //ACTION_POINTER_UP

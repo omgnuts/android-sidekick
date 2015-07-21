@@ -209,10 +209,42 @@ public class Nuori {
     /**
      * All the values here are primitive. No worries about affecting the values in the calling function
      */
-    void overScrollBy(int deltaX, int deltaY, int scrollX,
+    boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                          int scrollY, int scrollRangeX, int scrollRangeY,
                          int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-        if (!mActivated) return;
+        if (!mActivated) return false;
+
+        /**
+         * For Listview,
+         * the momennt it is in overscroll, it is ready for pull. No further checks needed
+         *
+         * For Scrollview,
+         * An additional check is required to determine if the scrollview has reached top
+         *
+         */
+        boolean isPullReady = scrollY <= 0; // this check is really just for scrollview.
+
+        /**
+         * You cant really do much in overscroll mode for compatibility between List/ScrollView.
+         *
+         * Scrollview calls overscroll all the time, whils listview only calls it during overscroll.
+         * Hence you need to handle the upward movement in OnTouchEvent.
+         *
+         */
+
+        // isTouchEvent - not due to fling or other motions. User is actually touching
+        if (mHeaderView.getHeight() <= mMaxZoomHeight && isTouchEvent && isPullReady) { // scrollY clamped
+            if (deltaY < 0) { // downard swipe
+                /**
+                 * Performs the pullToZoom.
+                 */
+                int futureY = (int) (mHeaderView.getHeight() - deltaY * mZoomMultiplier);
+                if (futureY >= mInitialHeightPx) {
+                    mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
+                    mHeaderView.requestLayout();
+                }
+            }
+        }
 
 //        Log.d(TAG, "...... mImageView.getHeight() = " + mImageView.getHeight());
 //        Log.d(TAG, "...... mMaxZoomHeight = " + mMaxZoomHeight);
@@ -223,30 +255,21 @@ public class Nuori {
 //        Log.d(TAG, "...... maxOverScrollX = " + maxOverScrollX);
 //        Log.d(TAG, "...... maxOverScrollY = " + maxOverScrollY);
 
-        // isTouchEvent - not due to fling or other motions. User is actually touching
-        if (mHeaderView.getHeight() <= mMaxZoomHeight && isTouchEvent && scrollY <= 0) { // scrollY clamped
-            if (deltaY < 0) { // downard swipe
-                int futureY = (int) (mHeaderView.getHeight() - deltaY * mZoomMultiplier);
-                if (futureY >= mInitialHeightPx) {
-                    mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
-                    mHeaderView.requestLayout();
-                }
-            } else { // upward swipe
-                if (mHeaderView.getHeight() > mInitialHeightPx) {
-                    int futureY = mHeaderView.getHeight() - deltaY;
-                    mHeaderView.getLayoutParams().height = futureY > mInitialHeightPx ? futureY : mInitialHeightPx;
-                    mHeaderView.requestLayout();
-                }
-            }
-        }
+        return false;
     }
 
-    void onTouchEvent(MotionEvent ev) {
-        if (!mActivated) return;
+    private float ptY = -1;
+    private boolean blockUp = false;
+
+    boolean onTouchEvent(MotionEvent ev) {
+        if (!mActivated) return false;
 
         switch(ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 bounceBack.cancel();
+
+                ptY = ev.getY();
+                blockUp = false;
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -256,8 +279,32 @@ public class Nuori {
                             mImageView.getDrawable().getIntrinsicHeight());
                 }
 
+                if (blockUp) {
+                    return true; // consume this.
+                }
+
                 break;
+
+            case MotionEvent.ACTION_MOVE:
+//                float deltaY = ev.getY() - ptY;
+//                boolean isUp = deltaY < 0;
+//                ptY = ev.getY();
+//
+//                int bottom = mHeaderView.getBottom();
+////                Log.d("NN", "bottom = " + bottom);
+//                if (0 <= bottom && bottom < mInitialHeightPx) {
+//                    blockUp = blockUp || isUp;
+////                    Log.d("NN", "stretched & scroll up");
+//                    int futureY = (int) (mHeaderView.getHeight() + deltaY);
+//                    mHeaderView.getLayoutParams().height = futureY;
+//                    mHeaderView.requestLayout();
+//                }
+//
+//                return blockUp;
+
         }
+
+        return false;
     }
 
     private BounceBackAnimation bounceBack = null;

@@ -30,6 +30,16 @@ public class Pull2ZoomActivity extends AppCompatActivity {
 						"Eighth Item",
 						"Ninth Item",
 						"Tenth Item",
+						".....",
+						"First Item",
+						"Second Item",
+						"Third Item",
+						"Fifth Item",
+						"Sixth Item",
+						"Seventh Item",
+						"Eighth Item",
+						"Ninth Item",
+						"Tenth Item",
 						"....."
 				}
 		);

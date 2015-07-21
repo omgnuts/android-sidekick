@@ -48,10 +48,11 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
         // performs the overscroll
-        nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
+        boolean consume = nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
                 maxOverScrollX, maxOverScrollY, isTouchEvent);
-        return super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
+        return consume || super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
                 scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
+
     }
 
     @Override
@@ -62,8 +63,8 @@ public class NuoriParallaxListView extends ListView implements NuoriParallaxView
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        nuori.onTouchEvent(ev);
-        return super.onTouchEvent(ev);
+        boolean consume = nuori.onTouchEvent(ev);
+        return consume || super.onTouchEvent(ev);
     }
 
     public float computePerspectiveOffset(int initHeightPx, float zoomed,float nonZoomablePart) {

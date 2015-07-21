@@ -48,14 +48,11 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
 
-        final boolean returnValue = super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
-                scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
-
         // performs the overscroll
-        nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
+        boolean consume = nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
                 maxOverScrollX, maxOverScrollY, isTouchEvent);
-
-        return returnValue;
+        return consume || super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
+                scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
     }
 
     @Override
@@ -66,8 +63,8 @@ public class NuoriParallaxScrollView extends ScrollView implements NuoriParallax
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        nuori.onTouchEvent(ev);
-        return super.onTouchEvent(ev);
+        boolean consume = nuori.onTouchEvent(ev);
+        return consume || super.onTouchEvent(ev);
     }
 
     private final int FAT_FINGERS = 0;
