@@ -20,8 +20,6 @@ public class NuoriParallaxRecyclerView extends RecyclerView implements NuoriPara
         if (!nuori.equals(this.nuori)) {
             throw new IllegalStateException("Don't just change the nuori!");
         }
-
-        // addHeaderView(nuori.getHeaderView());
     }
 
     public NuoriParallaxRecyclerView(Context context) {
@@ -39,34 +37,28 @@ public class NuoriParallaxRecyclerView extends RecyclerView implements NuoriPara
         nuori = new Nuori(this, context, attrs, defStyleAttr, 0);
     }
 
-//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//    public NuoriParallaxRecyclerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-//        super(context, attrs, defStyleAttr, defStyleRes);
-//        nuori = new Nuori(this, context, attrs, defStyleAttr, defStyleRes);
-//    }
-
     @Override
     protected boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                                    int scrollY, int scrollRangeX, int scrollRangeY,
                                    int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
         // performs the overscroll
-        boolean consume = nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
+        nuori.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY,
                 maxOverScrollX, maxOverScrollY, isTouchEvent);
-        return consume || super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
+        return super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
                 scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
 
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        nuori.onScrollChanged(l, t, oldl, oldt);
+        nuori.onParallax();
         super.onScrollChanged(l, t, oldl, oldt);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        boolean consume = nuori.onTouchEvent(ev);
-        return consume || super.onTouchEvent(ev);
+        nuori.onBounceBack(ev.getAction());
+        return super.onTouchEvent(ev);
     }
 
     public float computePerspectiveOffset(int initHeightPx, float zoomed,float nonZoomablePart) {

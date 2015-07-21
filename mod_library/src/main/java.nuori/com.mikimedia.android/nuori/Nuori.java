@@ -205,33 +205,35 @@ public class Nuori {
         });
     }
 
-    void onScrollChanged(int l, int t, int oldl, int oldt) {
-        if (!mActivated) return;
-//        Log.d("NN", "onScrollChanged");
-        if(!mActivated || !mIsParallaxEnabled) return;
-
-        float f = mInitialHeightPx - mHeaderView.getBottom();
-//        Log.d(TAG, "onScroll --> f = " + f);
-        if ((f > 0.0F) && (f < mInitialHeightPx)) {
-            int i = (int) (0.65D * f);
-            mHeaderView.scrollTo(0, -i);
-        } else if (mHeaderView.getScrollY() != 0) {
-            mHeaderView.scrollTo(0, 0);
-        }
-
-
-//        int futureY = (int) (mHeaderView.getHeight() + deltaY);
-//        mHeaderView.getLayoutParams().height = futureY;
-//        mHeaderView.requestLayout();
-    }
+//    void onScrollChanged(int l, int t, int oldl, int oldt) {
+//        if (!mActivated) return;
+////        Log.d("NN", "onScrollChanged");
+//        if(!mActivated || !mIsParallaxEnabled) return;
+//
+//        float f = mInitialHeightPx - mHeaderView.getBottom();
+////        Log.d(TAG, "onScroll --> f = " + f);
+//        if ((f > 0.0F) && (f < mInitialHeightPx)) {
+//            int i = (int) (0.65D * f);
+//            mHeaderView.scrollTo(0, -i);
+//        } else if (mHeaderView.getScrollY() != 0) {
+//            mHeaderView.scrollTo(0, 0);
+//        }
+//
+////        int futureY = (int) (mHeaderView.getHeight() + deltaY);
+////        mHeaderView.getLayoutParams().height = futureY;
+////        mHeaderView.requestLayout();
+//    }
 
     void onParallax() {
+        onParallax(mInitialHeightPx - mHeaderView.getBottom());
+    }
+
+    void onParallax(int baseLine) {
         if (!mActivated) return;
         Log.d("NN", "onParallax");
         if(!mActivated || !mIsParallaxEnabled) return;
 
-        NuoriParallaxScrollView hosty = (NuoriParallaxScrollView)mHost;
-        float f = hosty.getScrollY();
+        float f = baseLine;
         if ((f > 0.0F) && (f < mInitialHeightPx)) {
             Log.d(TAG, "onScroll --> f = " + f);
             int i = (int) (0.65D * f);
@@ -249,11 +251,11 @@ public class Nuori {
     /**
      * All the values here are primitive. No worries about affecting the values in the calling function
      */
-    boolean overScrollBy(int deltaX, int deltaY, int scrollX,
+    void overScrollBy(int deltaX, int deltaY, int scrollX,
                          int scrollY, int scrollRangeX, int scrollRangeY,
                          int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
 
-        if (!mActivated || !mIsPullZoomEnabled) return false;
+        if (!mActivated || !mIsPullZoomEnabled) return;
 
         /**
          * For Listview,
@@ -274,7 +276,7 @@ public class Nuori {
          */
 
         // isTouchEvent - not due to fling or other motions. User is actually touching
-        if (mHeaderView.getHeight() <= mMaxZoomHeight && isTouchEvent && isPullReady) { // scrollY clamped
+        if (mHeaderView.getHeight() <= mMaxZoomHeight && isPullReady) { // scrollY clamped
             if (deltaY < 0) { // downard swipe
                 /**
                  * Performs the pullToZoom.
@@ -295,14 +297,12 @@ public class Nuori {
 //        Log.d(TAG, "...... scrollY = " + scrollY);
 //        Log.d(TAG, "...... maxOverScrollX = " + maxOverScrollX);
 //        Log.d(TAG, "...... maxOverScrollY = " + maxOverScrollY);
-
-        return false;
     }
 
-    boolean onTouchEvent(MotionEvent ev) {
-        if (!mActivated) return false;
+    void onBounceBack(int action) {
+        if (!mActivated) return;
 
-        switch(ev.getAction()) {
+        switch(action) {
             case MotionEvent.ACTION_DOWN:
                 bounceBack.cancel();
 
@@ -317,8 +317,6 @@ public class Nuori {
 
                 break;
         }
-
-        return false;
     }
 
     private BounceBackAnimation bounceBack = null;
