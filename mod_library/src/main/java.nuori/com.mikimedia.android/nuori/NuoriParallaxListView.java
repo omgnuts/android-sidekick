@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 public class NuoriParallaxListView extends ListView implements NuoriParallaxView {
 
-    private final Nuori nuori;;
+    private final Nuori nuori;
 
     public Nuori getNuori() {
         return this.nuori;

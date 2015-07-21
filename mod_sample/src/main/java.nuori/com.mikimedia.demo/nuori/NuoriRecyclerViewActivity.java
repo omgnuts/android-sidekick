@@ -41,9 +41,9 @@ public class NuoriRecyclerViewActivity extends AppCompatActivity {
         setContentView(R.layout.nuori_recyclerview_activity);
 
         NuoriParallaxRecyclerView recyclerView = (NuoriParallaxRecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+//        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        recyclerView.setLayoutManager(linearLayoutManager);
 
         View header = LayoutInflater.from(this).inflate(R.layout.nuori_listview_header, recyclerView, false);
         HeaderAdapter adapter = new HeaderAdapter(this, getDataItems());

@@ -211,18 +211,17 @@ public class Nuori {
 
     void onParallax(int baseLine) {
         if (!mActivated) return;
-        Log.d("NN", "onParallax");
+//        Log.d("NN", "onParallax");
         if(!mActivated || !mIsParallaxEnabled) return;
 
         float f = baseLine;
         if ((f > 0.0F) && (f < mInitialHeightPx)) {
-            Log.d(TAG, "onScroll --> f = " + f);
+//            Log.d(TAG, "onScroll --> f = " + f);
             int i = (int) (0.65D * f);
             mHeaderView.scrollTo(0, -i);
         } else if (mHeaderView.getScrollY() != 0) {
             mHeaderView.scrollTo(0, 0);
         }
-
 
 //        int futureY = (int) (mHeaderView.getHeight() + deltaY);
 //        mHeaderView.getLayoutParams().height = futureY;
@@ -235,7 +234,6 @@ public class Nuori {
     void pullToZoom(int deltaY, boolean isPullReady) {
 
         if (!mActivated || !mIsPullZoomEnabled) return;
-
         /**
          * You cant really do much in overscroll mode for compatibility between List/ScrollView.
          *
@@ -243,6 +241,7 @@ public class Nuori {
          * Hence you need to handle the upward movement in OnTouchEvent.
          *
          */
+        Log.d("NN", "pullToZoom " + deltaY);
 
         // isTouchEvent - not due to fling or other motions. User is actually touching
         if (mHeaderView.getHeight() <= mMaxZoomHeight && isPullReady) { // scrollY clamped
@@ -251,7 +250,9 @@ public class Nuori {
                  * Performs the pullToZoom.
                  */
                 int futureY = (int) (mHeaderView.getHeight() - deltaY * mZoomMultiplier);
+                Log.d("NN", "futureY " + futureY);
                 if (futureY >= mInitialHeightPx) {
+                    Log.d("NN", "mInitialHeightPx " + mInitialHeightPx);
                     mHeaderView.getLayoutParams().height = futureY < mMaxZoomHeight ? futureY : mMaxZoomHeight;
                     mHeaderView.requestLayout();
                 }
