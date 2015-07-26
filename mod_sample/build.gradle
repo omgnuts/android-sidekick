@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 

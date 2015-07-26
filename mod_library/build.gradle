@@ -26,13 +26,13 @@ ext {
 
     // bare minimum params for uploading to bintray
     bintray_repo = 'maven'
-    package_name = 'android-jumpstart'
+    package_name = 'android-sidekick'
     group_id = 'com.mikimedia'
     artifact_id = project.name
-    artifact_version = '0.11'
+    artifact_version = '0.18'
     all_licenses = ["Apache-2.0"] // mandatory
-    git_url = 'https://github.com/jimcoven/android-jumpstart.git'
-    site_url = 'https://github.com/jimcoven/android-jumpstart'
+    git_url = 'https://github.com/jimcoven/android-sidekick.git'
+    site_url = 'https://github.com/jimcoven/android-sidekick'
 
     // pom.xml is required for users to download your aars using the command
     // ie. compile 'group_id:artifact_id:artifact_version'

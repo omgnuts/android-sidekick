@@ -1,2 +1,2 @@
-include ':android-jumpstart'
-project(':android-jumpstart').projectDir = new File('mod_library')
+include ':android-sidekick'
+project(':android-sidekick').projectDir = new File('mod_library')
