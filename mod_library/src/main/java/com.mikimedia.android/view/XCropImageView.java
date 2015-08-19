@@ -19,7 +19,6 @@
 
 package com.mikimedia.android.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Matrix;
@@ -109,7 +108,6 @@ public class XCropImageView extends ImageView {
         if (mScaleCropType > -1) setScaleType(ScaleType.MATRIX);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         Drawable d = getDrawable();
@@ -153,7 +151,7 @@ public class XCropImageView extends ImageView {
                 // 3. constrain by maxheight
                 // if match_parent then additional constraint if viewport < maxheight
                 // if wrap_content then anything works even if viewport < or >  maxheight
-                int maxHeight = getMaxHeight();
+                int maxHeight = getMMaxHeight();
                 msHeight = getLayoutParams().height;
                 if (msHeight > -2) { // match parent
                     if (msHeight == -1) msHeight = MeasureSpec.getSize(heightMeasureSpec);
@@ -177,7 +175,7 @@ public class XCropImageView extends ImageView {
                 // 3. constrain by maxwidth
                 // if match_parent then additional constraint if viewport < maxwidth
                 // if wrap_content then anything works even if viewport < or >  maxwidth
-                int maxWidth = getMaxWidth();
+                int maxWidth = getMMaxWidth();
                 msWidth = getLayoutParams().width;
                 if (msWidth > -2) { // match parent or is set
                     if (msWidth == -1) msWidth = MeasureSpec.getSize(widthMeasureSpec);
@@ -204,5 +202,36 @@ public class XCropImageView extends ImageView {
             setMeasuredDimension(msWidth, msHeight);
         }
         else super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private int mMaxWidth = Integer.MAX_VALUE;
+    private int mMaxHeight = Integer.MAX_VALUE;
+
+    @Override
+    public void setMaxHeight(int maxHeight) {
+        mMaxHeight = maxHeight;
+        super.setMaxHeight(maxHeight);
+    }
+
+    @Override
+    public void setMaxWidth(int maxWidth) {
+        mMaxWidth = maxWidth;
+        super.setMaxWidth(maxWidth);
+    }
+
+    private int getMMaxWidth() {
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            return getMaxWidth();
+        } else {
+            return mMaxWidth;
+        }
+    }
+
+    private int getMMaxHeight() {
+        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            return getMaxHeight();
+        } else {
+            return mMaxHeight;
+        }
     }
 }
