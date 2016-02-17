@@ -2,8 +2,10 @@ package com.mikimedia.android.nuori;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
@@ -94,7 +96,7 @@ public class Nuori {
         return this;
     }
 
-    View getHeaderView() {
+    public View getHeaderView() {
         return mHeaderView;
     }
 
@@ -163,6 +165,15 @@ public class Nuori {
         if (auto) notifyViewBoundsChanged();
     }
 
+    public void setImage(Bitmap bitmap) {
+        mImageView.setImageBitmap(bitmap);
+        notifyViewBoundsChanged();
+    }
+
+    public void setImage(Drawable drawable) {
+        mImageView.setImageDrawable(drawable);
+        notifyViewBoundsChanged();
+    }
     /**
      * TODO: runnable is required because the drawable may not yet be set.
      * but this is NOT SAFE. It depends on how long the image is set.

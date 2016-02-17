@@ -37,20 +37,17 @@ public class NuoriScrollViewActivity extends AppCompatActivity {
         final Target target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                imageView.setImageBitmap(bitmap);
-                nuori.notifyViewBoundsChanged();
+                nuori.setImage(bitmap);
             }
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-                imageView.setImageDrawable(errorDrawable);
-                nuori.notifyViewBoundsChanged();
+                nuori.setImage(errorDrawable);
             }
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
-                imageView.setImageDrawable(placeHolderDrawable);
-                nuori.notifyViewBoundsChanged();
+                nuori.setImage(placeHolderDrawable);
             }
         };
 
